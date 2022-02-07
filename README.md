@@ -15,7 +15,7 @@ Desarrollo de un juego online por turnos para la asignatura de Proyectos 2 en la
 ## Diseño
 
 ### Introducción
-Descripción
+A continuación veremos todas las cuestiones de diseño que permitirán que la aplicación funciones correctamente. El juego en cuestión será un juego de cartas online que tendrá cartas de diferentes valores y costes que favorecerán una jugabilidad rápida y original
 
 ### Historias de Usuario
 
@@ -35,6 +35,7 @@ Descripción
 + El jugador deberá poder buscar partida online desde la pantalla de inicio
 + El jugador deberá poder iniciar una partida offline contra una IA desde la pantalla de inicio
 + El jugador deberá poder crear partidas personalizadas mediante un código generado por el ordenador
++ El jugador deberá poder entrar en partidas personalizadas mediante introducir un código dado por otro jugador
 + El jugador podrá añadir amigos a la lista según su ID de jugador
 + El jugador podrá ver (pero no cambiar) su ID de jugador
 
@@ -67,6 +68,16 @@ Descripción
 + Las cartas tendrán valores que determinarán la potencia de la misma
 + Las cartas tendrán un coste de acción
 
+**Matchmaking**
++ El sistema deberá poder buscar un jugador que no esté en partida según un booleano
++ El sistema agregará un código de la partida a los 2 jugadores que participan en la misma 
++ El sistemá llevará a ambos jugadores a una partida
+
+**Matchmaking personalizado**
++ El sistema dará un código al jugador, lo llevará a una partida y cambiará el código de partida del jugador
++ El sistema dejará introducir un código al jugador que lo llevará a una partida y cambiará el código del jugador
++ El sistema dará un booleano de en partida cuando ambos jugadores tengan el mismo código de partida e iniciará la partida
+
 ### Diseño de la Base de Datos
 Descripción
 
@@ -78,6 +89,7 @@ Descripción
 - char userName
 - char password
 - image icono
+- array idAmigos
 
 **Jugador**
 
@@ -88,24 +100,16 @@ Descripción
 - bool partida
 - int costeAccion
 
-**Tabla x**
-
-
-**Tabla x**
-
-
 ### Diseño de las Pantallas
-Descripción
+A continuación veremos las Pantallas de la aplicación
 
 #### Registro / Inicio de Sesión
-Descripción
+Una pantalla inicial para poder tanto iniciar sesión como registrarse.
 
 #### Cliente principal
-Descripción
+Entorno base del jugador donde poder comprobar cartas, personalizar su usuario y buscar partidas
 
 #### Juego Online
-Descripción
+Entorno en el que vamos a desarrollar las partidas
 
-#### Juego Offline
-Descripción
 
