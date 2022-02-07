@@ -41,11 +41,18 @@ Descripción
 
 #### Tablas
 
-**Tabla x**
+**Usuario**
+**- idUser**
+**- char userName**
+**- char password**
+**- image icono**
 
-
-**Tabla x**
-
+**Jugador**
+**- idJugador**
+**- array idDeck**
+**- array idMano**
+**- idEnemigo**
+**- bool partida**
 
 **Tabla x**
 
