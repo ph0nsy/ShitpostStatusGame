@@ -73,18 +73,20 @@ Descripción
 #### Tablas
 
 **Usuario**
-**- idUser**
-**- char userName**
-**- char password**
-**- image icono**
+
+- idUser
+- char userName
+- char password
+- image icono
 
 **Jugador**
-**- idJugador**
-**- array idDeck**
-**- array idMano**
-**- id codPartida**
-**- bool partida**
-**- int costeAccion**
+
+- idJugador
+- array idDeck
+- array idMano
+- id codPartida
+- bool partida
+- int costeAccion
 
 **Tabla x**
 
