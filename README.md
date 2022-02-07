@@ -82,8 +82,9 @@ Descripción
 **- idJugador**
 **- array idDeck**
 **- array idMano**
-**- idEnemigo**
+**- id codPartida**
 **- bool partida**
+**- int costeAccion**
 
 **Tabla x**
 
