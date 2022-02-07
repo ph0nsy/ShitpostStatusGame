@@ -11,6 +11,7 @@ Desarrollo de un juego online por turnos para la asignatura de Proyectos 2 en la
 + [MySQL](https://www.mysql.com/ "Base de Datos")
 + [GitHub](github.com "Repositorio del proyecto")
 + [Azure DevOps](https://azure.microsoft.com/en-us/services/devops/ "Planeadore de Scrum")
++ [Video Referencia](https://www.youtube.com/watch?v=fEwAgKBgoJM&t=817s&ab_channel=M.S.Farzan "Referencias")
 
 ## Diseño
 
