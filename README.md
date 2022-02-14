@@ -7,6 +7,7 @@ Desarrollo de un juego online por turnos para la asignatura de Proyectos 2 en la
 + [JavaScript](https://www.javascript.com/)
 + [Phaser.io](https://phaser.io/ "Librería de Game Development")
 + [Node.JS](https://nodejs.org/en/ "Servidor")
++ [Express](https://expressjs.com/ "Simplificar el servidor")
 + [Socket.io](https://socket.io/ "Conexión con la Base de Datos")
 + [MySQL](https://www.mysql.com/ "Base de Datos")
 + [GitHub](github.com "Repositorio del proyecto")
