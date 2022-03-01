@@ -1,0 +1,18 @@
+<!--Cliente d-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Deck's Showtime</title>
+        <!--Esto funciona porque al instalar socket.io se crea un virtual path a la dirección del script -->
+        <script src="/socket.io/socket.io.js"></script>
+        <script> const socket = io(); </script>
+        <script src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.min.js"></script>
+        <!--script src="https://cdn.socket.io/4.4.1/socket.io.min.js" integrity="sha384-fKnu0iswBIqkjxrhQCTZ7qlLHOFEgNkRmK2vaO/LbTZSXdJfAu6ewRBdwHPhBo/H" crossorigin="anonymous"></script-->
+        
+    </head>
+    <body>
+        <div id="game"></div>
+    </body>
+    <script src="js/game.js"></script>
+</html>
