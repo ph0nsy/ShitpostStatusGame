@@ -1,9 +1,10 @@
-<!--Cliente d-->
+<!--Cliente-->
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="UTF-8">
+        <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
         <title>Deck's Showtime</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <!--Esto funciona porque al instalar socket.io se crea un virtual path a la dirección del script -->
         <script src="/socket.io/socket.io.js"></script>
         <script> const socket = io(); </script>
@@ -14,5 +15,5 @@
     <body>
         <div id="game"></div>
     </body>
-    <script src="js/game.js"></script>
+    <script type="module" src="js/game.js"></script>
 </html>

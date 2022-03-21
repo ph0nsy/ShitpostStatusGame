@@ -1,0 +1,51 @@
+<div style="background-color: burlywood;">
+<form> <!-- comienzo del formulario -->
+    <div>REGISTER</div>
+    <table style="margin-left: auto; margin-right: auto;"> <!-- tabla con el tipo de lineas que se ven -->
+      <tbody>
+        <tr>
+          <th>Nombre de usuario</th>
+          <td><input type="text" id="usernamereg" name="usernamereg" size="30" required/></td>
+        </tr>
+        <tr>
+          <th>Contraseña</th>
+          <td><input type="password" name="passwordreg" size="30" required 
+            pattern="(?=.*\d)(?=.*[a-záéíóúüñ]).*[A-ZÁÉÍÓÚÜÑ].*"
+            title="Debe tener al menos un caracter en mayúscula, uno en minúscula y un dígito."/></td>
+        </tr>
+        <tr>
+          <th>Confirmar contraseña</th>
+          <td><input type="password" name="passwordconf" size="30" required
+            pattern="(?=.*\d)(?=.*[a-záéíóúüñ]).*[A-ZÁÉÍÓÚÜÑ].*"
+            title="Debe tener al menos un caracter en mayúscula, uno en minúscula y un dígito."/></td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td><input type="submit" name="Entrar" onclick="comprobarClave()"></td>
+        </tr>
+      </tfoot>  
+    </table>
+  </form>
+  
+  <form> <!-- comienzo del formulario -->
+    <div>INICIO DE SESIÓN</div>
+    <table style="margin-left: auto; margin-right: auto;"> <!-- tabla con el tipo de lineas que se ven -->
+      <tbody>
+        <tr>
+          <th>Nombre de usuario</th>
+          <td><input type="text" id="usernamelog" name="usernamelog" size="30" required/></td>
+        </tr>
+        <tr>
+          <th>Contraseña</th>
+          <td><input type="password" name="passwordlog" size="30" required /></td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td><input type="submit" name="Entrar"></td>
+        </tr>
+      </tfoot>  
+    </table>
+  </form>
+</div>

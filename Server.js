@@ -4,6 +4,9 @@
 //
 // Express
 var express = require('express');
+//var morgan = require('morgan');
+//var compression = require('compression');
+//var mysql = require('mysql')
 var app = express();
 //app = module.exports.app = express();
 // http
