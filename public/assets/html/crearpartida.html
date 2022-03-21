@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+        <title>Deck's Showtime</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <!--Esto funciona porque al instalar socket.io se crea un virtual path a la dirección del script -->
+        <script src="/socket.io/socket.io.js"></script>
+        <script> const socket = io(); </script>
+        <script src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.min.js"></script>
+        <!--script src="https://cdn.socket.io/4.4.1/socket.io.min.js" integrity="sha384-fKnu0iswBIqkjxrhQCTZ7qlLHOFEgNkRmK2vaO/LbTZSXdJfAu6ewRBdwHPhBo/H" crossorigin="anonymous"></script-->
+        
+
+
+<div><img src="avatar.png"></div>   Hay que poner los styles
+
+<div> <p>Nombre de usuario</p> </div>
+
+<div>
+    <form> <!-- comienzo del formulario -->
+        <div>Nº de rounds</div>
+        <table style="margin-left: auto; margin-right: auto;"> <!-- tabla con el tipo de lineas que se ven -->
+          <tbody>
+            <tr>
+              <th>Nº de Rounds</th>
+            </tr>
+            <tr>
+                <td><input type="text" id="rondas" name="rondas" size="30" required/></td>
+              </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td><input type="submit" name="Entrar"></td>
+            </tr>
+          </tfoot>  
+        </table>
+      </form>
+      
+      <form> <!-- comienzo del formulario -->
+        <div>Insert code</div>
+        <table style="margin-left: auto; margin-right: auto;"> <!-- tabla con el tipo de lineas que se ven -->
+          <tbody>
+            <tr>
+              <th>Insert Code</th>
+              
+            </tr>
+            <tr>
+              <td><input type="password" name="codigopartida" size="30" required /></td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td><input type="submit" name="Entrar"></td>
+            </tr>
+          </tfoot>  
+        </table>
+      </form>
+    </div>
+
+
+
+
+</head>
+<script type="module" src="js/game.js"></script>
+</html>
