@@ -1,12 +1,13 @@
+/** @type {import("../typings/phaser")} */
 // Clase para la escena que permite a los jugadores registrarse o iniciar sesión
 export default class LogInRegister extends Phaser.Scene{
     // 
     constructor() {
-        super("LogInRegister")
+        super("LogInRegister");
     }
     // Cargar assets y otros elementos para usarlos más adelante
     preload() {
-      this.load.image('bg', '../../assets/a.gif');
+      this.load.image('bg', '../../assets/images/Background.jpg');
       this.load.html('form', '../../assets/html/form.html');
     }
     // Código que se ejecuta al iniciar el juego por primera vez
@@ -35,9 +36,9 @@ export default class LogInRegister extends Phaser.Scene{
       //
       // -------------------------- FORM en HTML -----------------------------
       
-      var text = this.add.text(10, 10, 'Please login to play', { color: 'white', fontFamily: 'Arial', fontSize: '32px '});
+      var text = this.add.text(10, 10, 'Please log in to play', { color: 'white', fontFamily: 'Arial', fontSize: '32px '});
       var element = this.add.dom(this.cameras.main.worldView.x + this.cameras.main.width / 2, this.cameras.main.worldView.y + this.cameras.main.height / 2).createFromCache('form');
-      // -------------------------- FORM en HTML -----------------------------|
+      // --------------------------  FIN FORM en HTML -----------------------------|
   
   
     }

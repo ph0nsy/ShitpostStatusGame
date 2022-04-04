@@ -1,8 +1,12 @@
+/** @type {import("../typings/phaser")} */
 import config from "./scenes/config.js";
 import LogInRegister from "./scenes/LogInRegister.js";
 //import MainScene from "./scenes/MainScene";
 //import Gameplay from "./scenes/Gameplay";
 
+/**
+ * Constructor del juego que gestiona las escenas
+ */
 class Game extends Phaser.Game {
   constructor() {
     // Añadir la configuración
