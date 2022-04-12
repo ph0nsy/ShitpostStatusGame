@@ -1,10 +1,9 @@
-/** @type {import("../typings/phaser")} */
 // Configuramos los aspectos visuales (con respecto al canvas del juego)
 // y algunos de los aspectos internos del mismo (como las físicas)
 export default {
     // La longitud de la pantalla es ocupada por un canvas
-    width: window.innerWidth-20,
-    height: window.innerHeight-20,
+    width: window.innerWidth-30,
+    height: window.innerHeight-30,
     // TIpo de renderizado automático (intenta usar WebGL o,
     // si no puede, Canvas)
     type: Phaser.AUTO,

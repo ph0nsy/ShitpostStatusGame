@@ -5,9 +5,17 @@
         <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
         <title>Deck's Showtime</title> 
         <style>
+            html, body, #game {
+                height: 100%;
+            }
+            body {
+                display: grid;
+                background: rgb(131,58,180);
+                background: linear-gradient(90deg, rgba(131,58,180,0.5) 0%, rgba(30,97,248,0.5) 25%, rgba(33,231,86,0.5) 50%, rgba(253,29,29,0.5) 75%, rgba(252,69,103,0.5) 100%);
+            }
             #game
             {
-                padding-top: 10px;
+                padding-top: 15px;
                 margin: 0 auto;
             }
         </style>    
@@ -17,10 +25,10 @@
         <script> const socket = io(); </script>
         <script src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.min.js"></script>
         <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
-        <!--script src="https://cdn.socket.io/4.4.1/socket.io.min.js" integrity="sha384-fKnu0iswBIqkjxrhQCTZ7qlLHOFEgNkRmK2vaO/LbTZSXdJfAu6ewRBdwHPhBo/H" crossorigin="anonymous"></script-->
+        <script src="https://cdn.socket.io/4.4.1/socket.io.min.js" integrity="sha384-fKnu0iswBIqkjxrhQCTZ7qlLHOFEgNkRmK2vaO/LbTZSXdJfAu6ewRBdwHPhBo/H" crossorigin="anonymous"></script>
         
     </head>
-    <body style="display: grid; background: rgb(131,58,180); background: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(30,97,248,1) 25%, rgba(33,231,86,1) 50%, rgba(253,29,29,1) 75%, rgba(252,69,103,1) 100%);">
+    <body>
         <div id="game"></div>
     </body>
     <script type="module" src="js/game.js"></script>

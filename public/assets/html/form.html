@@ -1,51 +1,44 @@
 <div style="background-color: burlywood;">
-<form> <!-- comienzo del formulario -->
-    <div>REGISTER</div>
+    <!-- comienzo del formulario -->
+    <h3>REGISTRARSE</h3>
     <table style="margin-left: auto; margin-right: auto;"> <!-- tabla con el tipo de lineas que se ven -->
       <tbody>
+        <th>Nombre de usuario</th>
         <tr>
-          <th>Nombre de usuario</th>
-          <td><input type="text" id="usernamereg" name="usernamereg" size="30" required/></td>
+          <td><input type="text" name="usernamereg" size="30" required/></td>
+        </tr>
+        <th>Contraseña</th>
+        <tr>
+          <td><input type="password" name="passwordreg" size="30" required
+            pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$">
+        </tr>
+        <th>Confirmar contraseña</th>
+        <tr>
+          <td><input type="password" name="passwordconf" size="30" required/></td>
         </tr>
         <tr>
-          <th>Contraseña</th>
-          <td><input type="password" name="passwordreg" size="30" required 
-            pattern="(?=.*\d)(?=.*[a-záéíóúüñ]).*[A-ZÁÉÍÓÚÜÑ].*"
-            title="Debe tener al menos un caracter en mayúscula, uno en minúscula y un dígito."/></td>
-        </tr>
-        <tr>
-          <th>Confirmar contraseña</th>
-          <td><input type="password" name="passwordconf" size="30" required
-            pattern="(?=.*\d)(?=.*[a-záéíóúüñ]).*[A-ZÁÉÍÓÚÜÑ].*"
-            title="Debe tener al menos un caracter en mayúscula, uno en minúscula y un dígito."/></td>
+          <td><input type="submit" name="Registrar"></td>
         </tr>
       </tbody>
-      <tfoot>
-        <tr>
-          <td><input type="submit" name="Entrar" onclick="comprobarClave()"></td>
-        </tr>
-      </tfoot>  
     </table>
-  </form>
   
-  <form> <!-- comienzo del formulario -->
-    <div>INICIO DE SESIÓN</div>
+  <!-- comienzo del formulario -->
+    <h3>INICIAR SESIÓN</h3>
     <table style="margin-left: auto; margin-right: auto;"> <!-- tabla con el tipo de lineas que se ven -->
       <tbody>
+        <th>Nombre de usuario</th>
         <tr>
-          <th>Nombre de usuario</th>
-          <td><input type="text" id="usernamelog" name="usernamelog" size="30" required/></td>
+          <td><input type="text" name="usernamelog" size="30"/></td>
         </tr>
+        <th>Contraseña</th>
         <tr>
-          <th>Contraseña</th>
-          <td><input type="password" name="passwordlog" size="30" required /></td>
+          <td><input type="password" name="passwordlog" size="30"/></td>
         </tr>
       </tbody>
       <tfoot>
         <tr>
-          <td><input type="submit" name="Entrar"></td>
+          <td><input type="submit" name="Iniciar"></td>
         </tr>
       </tfoot>  
     </table>
-  </form>
 </div>
