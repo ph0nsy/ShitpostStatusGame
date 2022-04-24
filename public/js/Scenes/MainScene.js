@@ -2,6 +2,10 @@
 export default class MainScene extends Phaser.Scene{
   constructor() {
     super('MainScene');
+    var sidebar;
+    var rgb;
+    var username;
+    var volume_text;
   }
   init(data){
     this.userID = data.name;
@@ -16,28 +20,86 @@ export default class MainScene extends Phaser.Scene{
     this.load.html('Vol', '../../assets/html/Volumen.html');
     this.load.html('Join', '../../assets/html/CodigoPartida.html');
     this.load.html('Create', '../../assets/html/NumeroRounds.html');
-  }
+  } 
   // Código que se ejecuta al iniciar el juego por primera vez
   create(){ 
-    var sidebar = this.add.image(this.game.canvas.width*0, this.game.canvas.height*0, 'tint').setScale(20,20).setTint('0xD7FAFE');
-    var sidebar = this.add.image(this.game.canvas.width*0.35, this.game.canvas.height*0, 'tint').setOrigin(1,0).setScale(10,10).setTint(rgb2Hex(255, 255, 255));
+    const gamescene = this;
+    var bg = gamescene.add.image(this.game.canvas.width*0, this.game.canvas.height*0, 'tint').setScale(20,20).setTint('0xD7FAFE');
+    // ----------------------- Color ---------------------------
+    this.sidebar = this.add.image(this.game.canvas.width*0.35, this.game.canvas.height*0, 'tint').setOrigin(1,0).setScale(10,10).setTint(rgb2Hex(255, 255, 255));
+    this.rgb = this.add.dom(this.game.canvas.width*0.18, this.game.canvas.height*0.4).createFromCache('RGB').setScale(1.25,1.25);
+    this.username = this.add.text(this.game.canvas.width*0.18, this.game.canvas.height*0.23, this.userID.value, { color: 'black', align: 'center', fontFamily: 'Arial', fontSize: '32px'}).setOrigin(0.5,0);
     var profile = this.add.image(this.game.canvas.width*0.18, this.game.canvas.height*0.15, 'Pf').setScale(0.1,0.1);
-    var username = this.add.text(this.game.canvas.width*0.18, this.game.canvas.height*0.23, this.userID.value, { color: 'black', align: 'center', fontFamily: 'Arial', fontSize: '32px'}).setOrigin(0.5,0);
-    var rgb = this.add.dom(this.game.canvas.width*0.18, this.game.canvas.height*0.4).createFromCache('RGB').setScale(1.25,1.25);
-    var username = this.add.text(this.game.canvas.width*0.18, this.game.canvas.height*0.625, 'Volumen', { color: 'black', align: 'center', fontFamily: 'Arial', fontSize: '32px'}).setOrigin(0.5,0);
-    var volume = this.add.dom(this.game.canvas.width*0.18, this.game.canvas.height*0.70).createFromCache('Vol').setScale(2,2);
-    var join_G = this.add.dom(this.game.canvas.width*0.65, this.game.canvas.height*0.30).createFromCache('Join');
-    var create_G = this.add.dom(this.game.canvas.width*0.65, this.game.canvas.height*0.55).createFromCache('Create');
+    // --------------------- Fin de Color -------------------------
+    // ----------------------- Volumen ---------------------------
+    this.volume_text = this.add.text(this.game.canvas.width*0.18, this.game.canvas.height*0.63, 'Volumen', { color: 'black', align: 'center', fontFamily: 'Arial', fontSize: '32px'}).setOrigin(0.5,0);
+    var volume = this.add.dom(this.game.canvas.width*0.18, this.game.canvas.height*0.7).createFromCache('Vol').setScale(1.5,1.5);
+    // --------------------- Fin de Volumen -------------------------
+    // -------------------------- Unirse a Partida -----------------------------
+    var join_G = this.add.dom(this.game.canvas.width*0.67, this.game.canvas.height*0.2).createFromCache('Join');
+    join_G.addListener('click');
+    join_G.on('click', function(event){
+      if(event.target.name === 'Unirse'){
+        var codigo = this.getChildByName('codigopartida');
+        if(codigo.value.length == 6){
+          this.socket = io();
+          gamescene.scene.start('Gameplay', {name: this.userID, socket: this.socket, join: 1, codigo: codigo.value});
+        }
+      }
+    });
+    // --------------------- Fin de Unirse a Partida -------------------------
+    // -------------------------- Crear Partida -----------------------------
+    var create_G = this.add.dom(this.game.canvas.width*0.67, this.game.canvas.height*0.6).createFromCache('Create');     
+    create_G.addListener('click');
+    create_G.on('click', function(event){
+      if(event.target.name === 'Iniciar'){
+        var noRondas = this.getChildByName('rondas');
+        if(noRondas.value>3){
+          noRondas.value = 3;
+        }
+        else if (noRondas.value<1){
+          noRondas.value = 1;
+        }
+        console.log(noRondas.value);
+        this.socket = io();
+        gamescene.scene.start('Gameplay', {name: this.userID, socket: this.socket, join: 0, rondas: noRondas.value});
+      }
+    });
+    // --------------------- Fin de Crear Partida -------------------------
     // -------------------------- Footer -----------------------------
-    var footbar = this.add.image(this.game.canvas.width*0, this.game.canvas.height*0.95, 'tint').setScale(20,1).setTint('0xA9A9A9');
-    var GitHub = this.add.image(this.game.canvas.width*0.45, this.game.canvas.height*0.92, 'GH').setScale(0.03,0.03).setInteractive({cursor: 'pointer'});
-    var uniFV = this.add.image(this.game.canvas.width*0.55, this.game.canvas.height*0.92, 'UFV').setScale(0.05,0.05).setInteractive({cursor: 'pointer'});
+    var footbar = this.add.image(this.game.canvas.width*0, this.game.canvas.height*0.80, 'tint').setOrigin(0,0).setScale(20,3).setTint('0x333333');
+    var GitHub = this.add.image(this.game.canvas.width*0.30, this.game.canvas.height*0.9, 'GH').setScale(0.05,0.05).setInteractive({cursor: 'pointer'});
+    var uniFV = this.add.image(this.game.canvas.width*0.70, this.game.canvas.height*0.9, 'UFV').setOrigin(0.75,0.5).setScale(0.08,0.08).setInteractive({cursor: 'pointer'});
     GitHub.on('pointerup', linkGH , this);
     uniFV.on('pointerup', linkUFV, this);
     // ---------------------- Fin de Footer --------------------------
   }
   // Código que se ejecutara cada frame (gameplay loop del juego)
-  update() {  }
+  update(){
+    this.sidebar = this.sidebar.setTint(rgb2Hex(this.rgb.getChildByName('R').valueAsNumber, this.rgb.getChildByName('G').valueAsNumber, this.rgb.getChildByName('B').valueAsNumber));
+    if (this.rgb.getChildByName('R').value < 75 && this.rgb.getChildByName('G').value < 75 && this.rgb.getChildByName('B').value < 75){
+      this.username.setColor('#FFFFFF');      
+      this.volume_text.setColor('#FFFFFF');
+      this.rgb.color = '#FFFFFF';
+    }
+    else {
+      this.username.setColor('#000000');      
+      this.volume_text.setColor('#000000');
+      this.rgb.color = '#FFFFFF';
+    }
+    // actualizar valores bdd con el resultado de this.rgb.getChildByName('R').value para r g y b
+  }
+}
+
+function pedirColores(){
+  /* Pedir colores a la bdd */
+      // En setTint de sidebar, meter los valores de r g y b de la bdd en la correspondiente funcion (como en update)
+      // En los hijos de rgb ()  this.rgb.getChildByName('R').value = valor
+}
+
+function guardarColores(){
+  /* Guardar colores en la bdd */
+    // coger valores de los hijos y guardarlos en la bdd
 }
 
 function linkGH(){
@@ -70,5 +132,5 @@ function single2Hex(single_color) {
 }
 
 function rgb2Hex(r, g, b){
-  return '0x' + single2Hex(r) + single2Hex(g) + single2Hex(b);
+  return '0x' + (single2Hex(r) + single2Hex(g) + single2Hex(b));
 }

@@ -4,8 +4,7 @@
 //
 // Express
 var express = require('express');
-//var morgan = require('morgan');
-//var compression = require('compression');
+const PORT = process.env.PORT || 8081;
 //var mysql = require('mysql');
 var app = express();
 //app = module.exports.app = express();
@@ -13,6 +12,7 @@ var app = express();
 var server = require('http').Server(app);
 // Socket.io
 var io = require('socket.io')(server);
+module.exports = app;
 // Recogemos todos los archivos estáticos relacionados con html que necesitaremos
 app.use(express.static(__dirname + '/public'));
 // Tomamos el index 

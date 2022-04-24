@@ -13,7 +13,7 @@ class Game extends Phaser.Game {
     // Añadir todas las escenas
     this.scene.add('LogInRegister', LogInRegister);
     this.scene.add('MainScene', MainScene);
-    this.scene.add("Gameplay", Gameplay);
+    this.scene.add('Gameplay', Gameplay);
     // Escena inicial del juego
     this.scene.start('LogInRegister');
   }

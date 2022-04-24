@@ -12,7 +12,7 @@ export default class LogInRegister extends Phaser.Scene{
     }
     // Código que se ejecuta al iniciar el juego por primera vez
     create() {
-      const scene = this;
+      const gamescene = this;
       // -------------------------- IMG de FONDO -----------------------------
       // Cargar la imagen fondo en el punto (0,0) del canvas y
       // hacer que la imagen fondo ocupe toda la pantalla
@@ -35,8 +35,7 @@ export default class LogInRegister extends Phaser.Scene{
       //
       //
       // -------------------------- FORM en HTML -----------------------------
-      var text = this.add.text(this.cameras.main.worldView.x + this.cameras.main.width / 2, 50, 'Inicia Sesión o Registrate para jugar', { color: 'white', fontFamily: 'Arial', fontSize: '32px '}).setOrigin(0.5,0);
-      
+      var text = this.add.text(this.cameras.main.worldView.x + this.cameras.main.width / 2, this.game.canvas.height*0.05, 'SHITPOST\nSTATUS', { color: 'whitesmoke', align: 'center', fontFamily: 'MyFont', fontSize: '80px'}).setOrigin(0.5,0);
       var element = this.add.dom(this.cameras.main.worldView.x + this.cameras.main.width / 2, this.cameras.main.worldView.y + this.cameras.main.height).createFromCache('form');
       element.addListener('click');
       element.on('click', function(event){
@@ -57,9 +56,12 @@ export default class LogInRegister extends Phaser.Scene{
               //  Turn off the click events
               this.removeListener('click');
               //  Tween the login form out
-              this.scene.tweens.add({targets: element, alpha: 0.00, scaleX: 3, scaleY: 3, duration: 3000, ease: 'Power3' });
-              
-              this.scene.scene.start('MainScene', {name: usernameCreate});
+              this.scene.tweens.add({targets: element, alpha: 0.00, scaleX: 3, scaleY: 3, duration: 1000, ease: 'Power3',
+                  onComplete: function ()
+                  {
+                    gamescene.scene.start('MainScene', {name: usernameLogin});
+                  }
+              }); 
             }
           }
         }
@@ -71,9 +73,12 @@ export default class LogInRegister extends Phaser.Scene{
             //  Turn off the click events
             this.removeListener('click');
             //  Tween the login form out
-            this.scene.tweens.add({targets: element, alpha: 0.00, scaleX: 3, scaleY: 3, duration: 3000, ease: 'Power3' });
-            
-            this.scene.scene.start('MainScene', {name: usernameLogin});
+            this.scene.tweens.add({targets: element, alpha: 0.00, scaleX: 3, scaleY: 3, duration: 1000, ease: 'Power3',
+                onComplete: function ()
+                {
+                  gamescene.scene.start('MainScene', {name: usernameLogin});
+                }
+            });            
           }
         }
       });
@@ -82,8 +87,8 @@ export default class LogInRegister extends Phaser.Scene{
       // hasta la que esta puesta en 'y'
       this.tweens.add({
         targets: element,
-        y: this.cameras.main.worldView.y + this.cameras.main.height / 2,
-        duration: 3000,
+        y: this.game.canvas.height*0.58,
+        duration: 2000,
         ease: 'Power3'
       });
       // --------------------------  FIN FORM en HTML -----------------------------|
@@ -91,6 +96,7 @@ export default class LogInRegister extends Phaser.Scene{
     // Código que se ejecutara cada frame (loop jugable del juego)
     update() {    }
   }
+
 
   function checkUsername(username){
     
