@@ -22,7 +22,7 @@ app.get('/',function(req,res){
     res.sendFile(__dirname+'/public/index.html');
 });
 // Apuntamos al puerto 8081
-server.listen(8081,function(){ 
+server.listen(PORT,function(){ 
     console.log(`Listening on ${server.address().port}`);
 });
 const gameRooms = {
