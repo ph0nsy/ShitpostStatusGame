@@ -20,15 +20,22 @@ export default class MainScene extends Phaser.Scene{
     this.load.html('Vol', '../../assets/html/Volumen.html');
     this.load.html('Join', '../../assets/html/CodigoPartida.html');
     this.load.html('Create', '../../assets/html/NumeroRounds.html');
+    this.load.html('Error', '../../assets/html/ErrorCode.html');
+    this.load.html('Full', '../../assets/html/FullRoom.html');
   } 
   // Código que se ejecuta al iniciar el juego por primera vez
   create(){ 
     const gamescene = this;
+    var name = this.userID.value;
+    var socket = io();
+    socket.on("connect", () => {
+      console.log(`A socket connection has been made: ${socket.id}`);
+    });
     var bg = gamescene.add.image(this.game.canvas.width*0, this.game.canvas.height*0, 'tint').setScale(20,20).setTint('0xD7FAFE');
     // ----------------------- Color ---------------------------
     this.sidebar = this.add.image(this.game.canvas.width*0.35, this.game.canvas.height*0, 'tint').setOrigin(1,0).setScale(10,10).setTint(rgb2Hex(255, 255, 255));
     this.rgb = this.add.dom(this.game.canvas.width*0.18, this.game.canvas.height*0.4).createFromCache('RGB').setScale(1.25,1.25);
-    this.username = this.add.text(this.game.canvas.width*0.18, this.game.canvas.height*0.23, this.userID.value, { color: 'black', align: 'center', fontFamily: 'Arial', fontSize: '32px'}).setOrigin(0.5,0);
+    this.username = this.add.text(this.game.canvas.width*0.18, this.game.canvas.height*0.23, name, { color: 'black', align: 'center', fontFamily: 'Arial', fontSize: '32px'}).setOrigin(0.5,0);
     var profile = this.add.image(this.game.canvas.width*0.18, this.game.canvas.height*0.15, 'Pf').setScale(0.1,0.1);
     // --------------------- Fin de Color -------------------------
     // ----------------------- Volumen ---------------------------
@@ -36,17 +43,42 @@ export default class MainScene extends Phaser.Scene{
     var volume = this.add.dom(this.game.canvas.width*0.18, this.game.canvas.height*0.7).createFromCache('Vol').setScale(1.5,1.5);
     // --------------------- Fin de Volumen -------------------------
     // -------------------------- Unirse a Partida -----------------------------
+    var error_cod = this.add.dom(this.game.canvas.width*0.5, this.game.canvas.height*0.5).createFromCache('Error').setOrigin(0.5,0.5).setScale(1,1).setActive(false).setVisible(false);
+    error_cod.addListener('click');
+    error_cod.on('click', function(event){
+      if(event.target.name === 'Code_Error'){
+        error_cod = error_cod.setActive(false).setVisible(false);
+      }
+    });
+
+    var full_r = this.add.dom(this.game.canvas.width*0.5, this.game.canvas.height*0.5).createFromCache('Full').setOrigin(0.5,0.5).setScale(1,1).setActive(false).setVisible(false);
+    full_r.addListener('click');
+    full_r.on('click', function(event){
+      if(event.target.name === 'Room_Full'){
+        full_r = full_r.setActive(false).setVisible(false);
+      }
+    });
+
     var join_G = this.add.dom(this.game.canvas.width*0.67, this.game.canvas.height*0.2).createFromCache('Join');
     join_G.addListener('click');
     join_G.on('click', function(event){
       if(event.target.name === 'Unirse'){
-        var codigo = this.getChildByName('codigopartida');
+        const codigo = this.getChildByName('codigopartida');
         if(codigo.value.length == 6){
-          this.socket = io();
-          gamescene.scene.start('Gameplay', {name: this.userID, socket: this.socket, join: 1, codigo: codigo.value});
+          socket.emit('isKeyValid', codigo.value.toUpperCase());
         }
       }
     });
+
+    socket.on('keyNotValid', function(){
+      error_cod = error_cod.setActive(false).setVisible(false);
+      error_cod = error_cod.setActive(true).setVisible(true);
+    });
+
+    socket.on('keyIsValid', function(code){    
+      gamescene.scene.start('Gameplay', {name: name, socket: socket, key: code});
+    });
+
     // --------------------- Fin de Unirse a Partida -------------------------
     // -------------------------- Crear Partida -----------------------------
     var create_G = this.add.dom(this.game.canvas.width*0.67, this.game.canvas.height*0.6).createFromCache('Create');     
@@ -60,11 +92,13 @@ export default class MainScene extends Phaser.Scene{
         else if (noRondas.value<1){
           noRondas.value = 1;
         }
-        console.log(noRondas.value);
-        this.socket = io();
-        gamescene.scene.start('Gameplay', {name: this.userID, socket: this.socket, join: 0, rondas: noRondas.value});
+        socket.emit('createRoom', noRondas.value);
       }
     });
+
+    socket.on('roomCreated', function(gameRoomInfo){
+      gamescene.scene.start('Gameplay', {name: name, socket: socket, key: gameRoomInfo.roomKey});
+    })
     // --------------------- Fin de Crear Partida -------------------------
     // -------------------------- Footer -----------------------------
     var footbar = this.add.image(this.game.canvas.width*0, this.game.canvas.height*0.80, 'tint').setOrigin(0,0).setScale(20,3).setTint('0x333333');
@@ -77,7 +111,7 @@ export default class MainScene extends Phaser.Scene{
   // Código que se ejecutara cada frame (gameplay loop del juego)
   update(){
     this.sidebar = this.sidebar.setTint(rgb2Hex(this.rgb.getChildByName('R').valueAsNumber, this.rgb.getChildByName('G').valueAsNumber, this.rgb.getChildByName('B').valueAsNumber));
-    if (this.rgb.getChildByName('R').value < 75 && this.rgb.getChildByName('G').value < 75 && this.rgb.getChildByName('B').value < 75){
+    if (this.rgb.getChildByName('R').value < 100 && this.rgb.getChildByName('G').value < 100 && this.rgb.getChildByName('B').value < 100){
       this.username.setColor('#FFFFFF');      
       this.volume_text.setColor('#FFFFFF');
       this.rgb.color = '#FFFFFF';
@@ -89,6 +123,7 @@ export default class MainScene extends Phaser.Scene{
     }
     // actualizar valores bdd con el resultado de this.rgb.getChildByName('R').value para r g y b
   }
+
 }
 
 function pedirColores(){
@@ -103,7 +138,7 @@ function guardarColores(){
 }
 
 function linkGH(){
-  var s = window.open('https://github.com/ph0nsy/Proyectos_2-UFV', '_blank');
+  var s = window.open('https://github.com/ph0nsy/ShitpostStatusGame', '_blank');
   if (s && s.focus)
   {
       s.focus();

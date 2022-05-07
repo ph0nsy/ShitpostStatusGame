@@ -7,6 +7,12 @@ export default class LogInRegister extends Phaser.Scene{
     
     // Cargar assets y otros elementos para usarlos más adelante
     preload() {
+      var image1 = Math.floor((Math.random() * (27 - 1) ) + 1);
+      image1 = '../../assets/images/GameImages/' + image1.toString() + '.png';
+      var image2 = Math.floor((Math.random() * (55 - 28) ) + 28);
+      image2 = '../../assets/images/GameImages/' + image2.toString() + '.png';
+      this.load.image('rand1', image1);
+      this.load.image('rand2', image2);
       this.load.image('bg', '../../assets/images/Background.jpg');
       this.load.html('form', '../../assets/html/form.html');
     }
@@ -33,6 +39,10 @@ export default class LogInRegister extends Phaser.Scene{
       }
       // -------------------------- FIN IMG de FONDO -----------------------------|
       //
+      let imgR1 = this.add.image(this.game.canvas.width*0.2, this.game.canvas.height*0.65, 'rand1');
+      imgR1.rotation -= 0.45;
+      let imgR2 = this.add.image(this.game.canvas.width*0.8, this.game.canvas.height*0.35, 'rand2');
+      imgR2.rotation += 0.45;
       //
       // -------------------------- FORM en HTML -----------------------------
       var text = this.add.text(this.cameras.main.worldView.x + this.cameras.main.width / 2, this.game.canvas.height*0.05, 'SHITPOST\nSTATUS', { color: 'whitesmoke', align: 'center', fontFamily: 'MyFont', fontSize: '80px'}).setOrigin(0.5,0);
