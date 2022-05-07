@@ -1,7 +1,7 @@
 import config from './config.js';
-import LogInRegister from './scenes/LogInRegister.js';
-import MainScene from './scenes/MainScene.js';
-import Gameplay from "./scenes/Gameplay.js";
+import LogInRegister from './Scenes/LogInRegister.js';
+import MainScene from './Scenes/MainScene.js';
+import Gameplay from "./Scenes/Gameplay.js";
 
 /**
  * Constructor del juego que gestiona las escenas
