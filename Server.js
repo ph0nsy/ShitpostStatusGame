@@ -56,7 +56,7 @@ io.on('connection', function (socket) {
                 numPlayers: roomInfo.numPlayers,
             });
         }
-    });
+    }); 
     
     socket.on('joinRoom', (roomKey, name) =>{
         const roomInfo = gameRooms[roomKey];
