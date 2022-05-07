@@ -2,9 +2,9 @@
   "name": "shitpost-status",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node ./server.js"
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "",
@@ -16,7 +16,7 @@
     "socket.io": "^4.4.1"
   },
   "engines": {
-    "node": "16.14.0",
-    "npm": "8.3.1"
+    "node": "16.x",
+    "npm": "8.x"
   }
 }
