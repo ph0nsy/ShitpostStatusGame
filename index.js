@@ -1,3 +1,5 @@
+'use strict';
+
 // Este será el servidor de nuestro juego
 // 
 // A continuación inicializaremos todo lo relacionado con "node.js" que vamos a necesitar

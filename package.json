@@ -1,6 +1,10 @@
 {
   "name": "shitpost-status",
   "version": "1.0.0",
+  "engines": {
+    "node": "16.x",
+    "npm": "8.x"
+  },
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -14,9 +18,5 @@
     "express": "^4.17.2",
     "phaser": "^3.55.2",
     "socket.io": "^4.4.1"
-  },
-  "engines": {
-    "node": "16.x",
-    "npm": "8.x"
   }
 }
