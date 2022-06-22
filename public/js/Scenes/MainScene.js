@@ -43,14 +43,6 @@ export default class MainScene extends Phaser.Scene{
     var volume = this.add.dom(this.game.canvas.width*0.18, this.game.canvas.height*0.7).createFromCache('Vol').setScale(1.5,1.5);
     // --------------------- Fin de Volumen -------------------------
     // -------------------------- Unirse a Partida -----------------------------
-    var error_cod = this.add.dom(this.game.canvas.width*0.5, this.game.canvas.height*0.5).createFromCache('Error').setOrigin(0.5,0.5).setScale(1,1).setActive(false).setVisible(false);
-    error_cod.addListener('click');
-    error_cod.on('click', function(event){
-      if(event.target.name === 'Code_Error'){
-        error_cod = error_cod.setActive(false).setVisible(false);
-      }
-    });
-
     var full_r = this.add.dom(this.game.canvas.width*0.5, this.game.canvas.height*0.5).createFromCache('Full').setOrigin(0.5,0.5).setScale(1,1).setActive(false).setVisible(false);
     full_r.addListener('click');
     full_r.on('click', function(event){
@@ -75,10 +67,19 @@ export default class MainScene extends Phaser.Scene{
       error_cod = error_cod.setActive(true).setVisible(true);
     });
 
-    socket.on('keyIsValid', function(code){    
-      gamescene.scene.start('Gameplay', {name: name, socket: socket, key: code});
-    });
+    socket.on('keyIsValid', function(code){
+        
+      socket.emit('joinRoom', code);
 
+      socket.on('roomFull', function(isfull){
+        if(isfull){
+          error_cod = error_cod.setActive(false).setVisible(false);
+          error_cod = error_cod.setActive(true).setVisible(true);
+        } else {
+          gamescene.scene.start('Gameplay', {name: name, socket: socket, key: code});
+        }
+      });
+    });
     // --------------------- Fin de Unirse a Partida -------------------------
     // -------------------------- Crear Partida -----------------------------
     var create_G = this.add.dom(this.game.canvas.width*0.67, this.game.canvas.height*0.6).createFromCache('Create');     
@@ -97,9 +98,33 @@ export default class MainScene extends Phaser.Scene{
     });
 
     socket.on('roomCreated', function(gameRoomInfo){
-      gamescene.scene.start('Gameplay', {name: name, socket: socket, key: gameRoomInfo.roomKey});
-    })
+        
+      socket.emit('joinRoom', gameRoomInfo.roomKey);
+
+      socket.on('roomFull', function(isfull){
+        if(isfull){
+          error_cod = error_cod.setActive(false).setVisible(false);
+          error_cod = error_cod.setActive(true).setVisible(true);
+        } else {
+          gamescene.scene.start('Gameplay', {name: name, socket: socket, key: gameRoomInfo.roomKey});
+        }
+      });
+      
+    });
     // --------------------- Fin de Crear Partida -------------------------
+    // -------------------------- Error Form -----------------------------
+    var error_cod = this.add.dom(this.game.canvas.width*0.5, this.game.canvas.height*0.5).createFromCache('Error').setOrigin(0.5,0.5).setScale(1,1).setActive(false).setVisible(false);
+    error_cod.addListener('click');
+    error_cod.on('click', function(event){
+      if(event.target.name === 'Code_Error'){
+        error_cod = error_cod.setActive(false).setVisible(false);
+        
+        gamescene.registry.destroy(); // destroy registry
+        gamescene.events.off(); // disable all active events
+        gamescene.scene.restart(); // restart current scene
+      }
+    });
+    // -------------------------- Fin Error Form -----------------------------
     // -------------------------- Footer -----------------------------
     var footbar = this.add.image(this.game.canvas.width*0, this.game.canvas.height*0.80, 'tint').setOrigin(0,0).setScale(20,3).setTint('0x333333');
     var GitHub = this.add.image(this.game.canvas.width*0.30, this.game.canvas.height*0.9, 'GH').setScale(0.05,0.05).setInteractive({cursor: 'pointer'});

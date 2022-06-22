@@ -1,0 +1,57 @@
+<style>
+    .transparent {
+      background-color: rgba(0, 0, 0, 0.7);
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 20px;
+      padding-bottom: 20px;
+      border-radius: 25px;
+      color: white;
+    }
+    
+    input[type=text] {
+        padding: 1px 5px;
+        margin: 2px 0;
+        box-sizing: border-box;
+        border-radius: 20px;
+        cursor: text;        
+        display: inline;
+        width: 100%;
+        font-size: 24px;
+        background-color: lightgrey;
+    }
+    .buttonPrompt{
+      background-color: dodgerblue;
+      color:whitesmoke;
+      border: 2px solid whitesmoke;  
+      padding: 8px 32px;
+      text-align: center;
+      text-decoration: none;
+      font-size: 16px;
+      transition-duration: 0.4s;
+      cursor: pointer;
+      margin-top: 12px;
+      margin-bottom: 12px;  
+      margin-left: auto;
+      margin-right: auto;
+      display: block;
+    }
+  
+    .buttonPrompt:hover {
+      background-color: darkblue;
+      color: whitesmoke;
+    }
+  
+    .buttonPrompt:active{
+      background-color: deepskyblue;
+    }
+  </style>
+  <div class="transparent">
+    <br>
+    <h1 style="text-align: center;">Write a prompt!</h1>
+    <br>
+    <input type="text" placeholder="Submit empty for a random prompt" name="prompt">
+    <br><br>
+    <input type="submit" value="SUBMIT" class="buttonPrompt" name="sumbmitPrompt">
+    <br>
+  </div>

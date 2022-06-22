@@ -1,0 +1,72 @@
+<style>
+    .transparent {
+      background-color: rgba(0, 0, 0, 0.7);
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 20px;
+      padding-bottom: 20px;
+      border-radius: 25px;
+      color: white;
+    }
+    .buttonStart {
+      visibility: visible;
+      background-color: olivedrab;
+      color:whitesmoke;
+      border: 2px solid whitesmoke;  
+      padding: 8px 32px;
+      text-align: center;
+      text-decoration: none;
+      font-size: 16px;
+      transition-duration: 0.4s;
+      cursor: pointer;
+      margin-top: 12px;
+      margin-bottom: 12px;  
+      margin-left: auto;
+      margin-right: auto;
+      display: block;
+    }
+  
+    .buttonStart:hover {
+      background-color: darkgreen;
+      color: whitesmoke;
+    }
+  
+    .buttonStart:active{
+      background-color: olive;
+    }
+  
+    .buttonCancel{
+      visibility: hidden;
+      background-color: orangered;
+      color:whitesmoke;
+      border: 2px solid whitesmoke;  
+      padding: 8px 32px;
+      text-align: center;
+      text-decoration: none;
+      font-size: 16px;
+      transition-duration: 0.4s;
+      cursor: pointer;
+      margin-top: 12px;
+      margin-bottom: 12px;  
+      margin-left: auto;
+      margin-right: auto;
+      display: block;
+    }
+  
+    .buttonCancel:hover {
+      background-color: darkred;
+      color: whitesmoke;
+    }
+  
+    .buttonCancel:active{
+      background-color: orange;
+    }
+  </style>
+  <div class="transparent">
+    <br>
+    <h1 style="text-align: center;">Play Again?</h1>
+    <br>
+    <input type="submit" value="  START  " class="buttonStart">
+    <input type="submit" value="CANCEL" class="buttonCancel">
+    <br>
+  </div>

@@ -1,5 +1,6 @@
 'use strict';
 
+const { Console } = require('console');
 // Este será el servidor de nuestro juego
 // 
 // A continuación inicializaremos todo lo relacionado con "node.js" que vamos a necesitar
@@ -60,36 +61,47 @@ io.on('connection', function (socket) {
         }
     }); 
     
-    socket.on('joinRoom', (roomKey, name) =>{
+    socket.on('isOnRoom', function(roomKey, name){
         const roomInfo = gameRooms[roomKey];
-        if(roomInfo.numPlayers > 5) {
-            socket.emit('roomFull');
+        socket.join(roomKey);
+        roomInfo.players[socket.id] = {
+            playerId: socket.id,
+            username: name,
+            score: 0,
+            ready: 0,
+        };
+        console.log('roomInfo ', roomInfo);
+
+        roomInfo.numPlayers = Object.keys(roomInfo.players).length;
+        socket.emit('setState', {
+            roomKey: roomInfo.roomKey,
+            players: roomInfo.players,
+            numPlayers: roomInfo.numPlayers,
+        });
+
+        socket.emit('currentPlayers', {
+            players: roomInfo.players,
+            numPlayers: roomInfo.numPlayers,
+        });
+
+        socket.to(roomKey).emit('newPlayer',{
+            playerInfo: roomInfo.players[socket.id],
+            numPlayers: roomInfo.numPlayers,
+        });
+    });
+
+    socket.on('joinRoom', (roomKey) =>{
+        const roomInfo = gameRooms[roomKey];
+        var allReady = 0;
+        Object.keys(roomInfo.players).forEach(function(id){
+            if(roomInfo.players[id].ready == 1){
+                allReady++; 
+            }
+        });
+        if(!roomInfo || (roomInfo && roomInfo.numPlayers > 5) || (Object.keys(roomInfo.players).length > 0 && allReady >= Object.keys(roomInfo.players).length)) {
+            socket.emit('roomFull', true);
         } else {
-            socket.join(roomKey);
-            roomInfo.players[socket.id] = {
-                playerId: socket.id,
-                username: name,
-                score: 0,
-                ready: 0,
-            };
-            console.log('roomInfo ', roomInfo);
-
-            roomInfo.numPlayers = Object.keys(roomInfo.players).length;
-            socket.emit('setState', {
-                roomKey: roomInfo.roomKey,
-                players: roomInfo.players,
-                numPlayers: roomInfo.numPlayers,
-            });
-
-            socket.emit('currentPlayers', {
-                players: roomInfo.players,
-                numPlayers: roomInfo.numPlayers,
-            });
-
-            socket.to(roomKey).emit('newPlayer',{
-                playerInfo: roomInfo.players[socket.id],
-                numPlayers: roomInfo.numPlayers,
-            });
+            socket.emit('roomFull', false);
         }
     });
     
@@ -113,18 +125,39 @@ io.on('connection', function (socket) {
         socket.emit('roomCreated', gameRooms[key]);
     });
 
-    socket.on('ready', function(roomkey){
+    socket.on('ready', function(roomKey, rId){
         const roomInfo = gameRooms[roomKey];
-        roomInfo.players[socket.id].ready = 1;
+        roomInfo.players[rId].ready = 1;
         var readyGo = 0;
         Object.keys(roomInfo.players).forEach(function(id){
-            if(players[id].ready == 0){
+            if(roomInfo.players[id].ready == 1){
                 readyGo++; 
             }
         });
-        if(readyGo <= 0){
-            socket.emit('readyGo');
+        if(readyGo >= Object.keys(roomInfo.players).length){
+            io.sockets.in(roomKey).emit('currentJudge', roomInfo, Object.keys(roomInfo.players)[0]);
         }
+    });
+
+    socket.on('sendPrompt', function(key, promptQ){
+        if(promptQ){
+            io.sockets.in(key).emit('getPrompt', Object.keys(gameRooms[key].players)[gameRooms[key].currentPlayer], promptQ);
+        } else {
+
+            //io.socket.in(key).emit('getPrompt', Object.keys(gameRooms[key].players)[gameRooms[key].currentPlayer], getPrefabPromt(Math.floor(Math.random() * 20 ) + 1));
+        }
+    });
+
+    socket.on('selected', function(){
+        //emit waitSelect
+
+        //emit waitVote
+    });
+
+    socket.on('hasVoted', function(){
+        //emit nextJudge
+
+        //emit endGame
     });
 }); 
 
@@ -135,4 +168,8 @@ function generateCode(){
         code += dictionary.charAt(Math.floor(Math.random() * dictionary.length));
     }
     return code;
+}
+
+function getPrefabPromt(num){
+    //query con num como id
 }

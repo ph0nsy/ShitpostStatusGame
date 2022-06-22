@@ -1,5 +1,42 @@
-<div>
-  <h1 style="margin-left: 500px; text-align: center;">Haz click <br> para empezar <br> la partida</h1>
+<style>
+  .transparent {
+    background-color: rgba(0, 0, 0, 0.7);
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-radius: 25px;
+    color: white;
+  }
+  .buttonStart {
+    visibility: visible;
+    background-color: olivedrab;
+    color:whitesmoke;
+    border: 2px solid whitesmoke;  
+    padding: 8px 32px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    margin-top: 12px;
+    margin-bottom: 12px;  
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+  }
+
+  .buttonStart:hover {
+    background-color: darkgreen;
+    color: whitesmoke;
+  }
+
+  .buttonStart:active{
+    background-color: olive;
+  }
+</style>
+<div class="transparent">
   <br><br>
-  <button type="submit" class="button">START</button>
+  <input type="submit" value="  START  " class="buttonStart" name="start">
+  <br><br>
 </div>
