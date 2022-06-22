@@ -8,7 +8,8 @@ export default class MainScene extends Phaser.Scene{
     var volume_text;
   }
   init(data){
-    this.userID = data.name;
+    this.userID = data.id;
+    var socket = data.socket;
   }
   // Cargar assets y otros elementos para usarlos más adelante
   preload() {
@@ -27,10 +28,6 @@ export default class MainScene extends Phaser.Scene{
   create(){ 
     const gamescene = this;
     var name = this.userID.value;
-    var socket = io();
-    socket.on("connect", () => {
-      console.log(`A socket connection has been made: ${socket.id}`);
-    });
     var bg = gamescene.add.image(this.game.canvas.width*0, this.game.canvas.height*0, 'tint').setScale(20,20).setTint('0xD7FAFE');
     // ----------------------- Color ---------------------------
     this.sidebar = this.add.image(this.game.canvas.width*0.35, this.game.canvas.height*0, 'tint').setOrigin(1,0).setScale(10,10).setTint(rgb2Hex(255, 255, 255));

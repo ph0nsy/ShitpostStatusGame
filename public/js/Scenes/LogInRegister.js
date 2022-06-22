@@ -19,6 +19,10 @@ export default class LogInRegister extends Phaser.Scene{
     // Código que se ejecuta al iniciar el juego por primera vez
     create() {
       const gamescene = this;
+      var socket = io();
+      socket.on("connect", () => {
+        console.log(`A socket connection has been made: ${socket.id}`);
+      });
       // -------------------------- IMG de FONDO -----------------------------
       // Cargar la imagen fondo en el punto (0,0) del canvas y
       // hacer que la imagen fondo ocupe toda la pantalla
@@ -56,37 +60,34 @@ export default class LogInRegister extends Phaser.Scene{
 
           //  Have they entered anything?
           if (usernameCreate.value !== '' && passwordCreate.value !== '' && checkValidity(passwordCreate) && checkPaswords(passwordCreate,passwordConfirm))
-          {
-            if (checkUsername(usernameCreate)){
-              
-              //
-              // CREATE ACCOUNT
-              //
-
-              //  Turn off the click events
+          {/*
+            socket.emit('checkUsername', usernameCreate, passwordCreate);
+            socket.on('newUser', function(id){
               this.removeListener('click');
               //  Tween the login form out
+
               this.scene.tweens.add({targets: element, alpha: 0.00, scaleX: 3, scaleY: 3, duration: 1000, ease: 'Power3',
                   onComplete: function ()
                   {
-                    gamescene.scene.start('MainScene', {name: usernameLogin});
+                    gamescene.scene.start('MainScene', {id: id, socket:socket});
                   }
-              }); 
-            }
+              });
+            });*/
           }
         }
         else if(event.target.name === 'Iniciar'){
           var usernameLogin = this.getChildByName('usernamelog');
           var passwordLogin = this.getChildByName('passwordlog');
+          var idInicio = checkLogIn(usernameLogin, passwordLogin);
           //  Have they entered anything?
-          if (usernameLogin.value !== '' && passwordLogin.value !== '' && checkLogIn(usernameLogin, passwordLogin)){
+          if (usernameLogin.value !== '' && passwordLogin.value !== '' && idInicio){
             //  Turn off the click events
             this.removeListener('click');
-            //  Tween the login form out
+            //  Tween the login form out  
             this.scene.tweens.add({targets: element, alpha: 0.00, scaleX: 3, scaleY: 3, duration: 1000, ease: 'Power3',
                 onComplete: function ()
                 {
-                  gamescene.scene.start('MainScene', {name: usernameLogin});
+                  gamescene.scene.start('MainScene', {id: idInicio, socket:socket});
                 }
             });            
           }
@@ -109,20 +110,7 @@ export default class LogInRegister extends Phaser.Scene{
 
 
   function checkUsername(username){
-    
-    //
-    // COMPROBAR SI EL USUARIO YA EXISTE EN LA BDD
-    //
 
-    if(true){
-      username.setCustomValidity('');
-      return true;
-    }
-    else{
-      username.setCustomValidity('Usuario no válido');
-      username.reportValidity();
-      return false;
-    }
   }
 
   // Para comprobar que las contraseñas coinciden
@@ -153,16 +141,26 @@ export default class LogInRegister extends Phaser.Scene{
   }
 
   function checkLogIn(user, pwd){
-    //
-    // COMPROBAR SI USUARIO Y CONTRASEÑA COINCIDEN EN LA BDD
-    //
-    if(true){
+    
+    if (true) {
       user.setCustomValidity('');
       return true;
-    }
-    else{
-      user.setCustomValidity('El usuario y la contraseña no coinciden');
+    } else {
+      user.setCustomValidity('Usuario no válido');
       user.reportValidity();
-      return false;
-    }
+      return null;
+    }/*
+    bcrypt.hash(pwd, saltRounds, (err, hash) => {
+      dbcon.connect(function(err){
+        if(err) throw err;
+          dbcon.query('SELECT id FROM User WHERE nombre = ? AND contraseña = ?', [pool.escape(user), pool.escape(hash)], function(err, row) {
+            if(err) {
+                logger.error('Error in DB');
+                logger.debug(err);
+                return;
+            } else {
+            }
+        });
+      });
+    });*/
   }

@@ -18,14 +18,21 @@ var io = require('socket.io')(server);
 module.exports = app;
 // Recogemos todos los archivos estáticos relacionados con html que necesitaremos
 app.use(express.static(__dirname + '/public'));
+
 // Tomamos el index 
 app.get('/',function(req,res){
     res.sendFile(__dirname+'/public/index.html');
 });
+
 // Apuntamos al puerto 8081
 server.listen(PORT,function(){ 
     console.log(`Listening on ${server.address().port}`);
 });
+
+require('dotenv').config();
+//const bcryptjs = require('bcryptjs');
+//const dbcon = require('db.js');
+
 const gameRooms = {
     // Elementos que habrá dentro de la constante
     /*[roomKey]:{
@@ -38,6 +45,29 @@ const gameRooms = {
 // Escuchamos a las conexiones y desconexiones
 io.on('connection', function (socket) {
     console.log(`A socket connection has been made: ${socket.id}`);
+    /*socket.on('checkUsername', function(username, password){
+        dbcon.connect(function(err){
+            if(err) throw err;
+              dbcon.query('IF EXISTS (SELECT 1 FROM User WHERE nombre = ' + pool.escape(username) + ')', function(err, row) {
+                if(err) {
+                    logger.error('Error in DB');
+                    logger.debug(err);
+                } else {
+                    if (!row) {
+                        username.setCustomValidity('');
+                        username.setCustomValidity('Usuario no válido');
+                    } else {
+                      username.reportValidity();
+                      dbcon.query('INSERT INTO User (nombre, contraseña) VALUES ?', [username, password], function (err, result) {
+                        if (err) throw err;
+                        socket.emit('newUser', row);
+                      });
+                    }
+                }
+            });
+        });
+    });*/
+
     socket.on('disconnect', function () {
         let roomkey = 0;
         for (let keysA in gameRooms){

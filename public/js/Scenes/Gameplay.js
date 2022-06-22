@@ -1,4 +1,4 @@
-import { text } from "express";
+//import { text } from "express";
 
 // Clase para la escena que permite jugar la partida
 export default class Gameplay extends Phaser.Scene{
@@ -213,7 +213,7 @@ export default class Gameplay extends Phaser.Scene{
           op2.destroy();
           op3.destroy();
           op4.destroy();
-          socket.emit(,op4img);
+          //socket.emit(,op4img);
         });
       }
     });
