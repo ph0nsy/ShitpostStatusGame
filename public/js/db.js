@@ -1,19 +1,18 @@
 require('dotenv').config();
-const mysql = require('mysql');
-
-const connection = mysql.createPool({
+// Use the MariaDB Node.js Connector
+var mariadb = require('mariadb');
+ 
+// Create a connection pool
+var pool = mariadb.createPool({
     connectionLimit: 10,
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASS,
-    database: process.env.DB_NAME,
+    host: "mysql-npr24x.alwaysdata.net",//process.env.DB_HOST,
+    user: "npr24x_usuario",//process.env.DB_USER,
+    password: "proyectos2",//process.env.DB_PASS,
+    database: "npr24x_proyectos",//process.env.DB_NAME,
+    multipleStatements: true
 });
 
-connection.connect((error)=>{
-    if(error){
-        console.log('Error on database connection: ' + error);
-        return;
-    }
-    console.log('Connected to database');
+// Expose a method to establish connection with MariaDB SkySQL
+module.exports = Object.freeze({
+  pool: pool
 });
-module.exports = connection;

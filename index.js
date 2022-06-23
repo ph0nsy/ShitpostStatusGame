@@ -1,5 +1,4 @@
 'use strict';
-
 const { Console } = require('console');
 // Este será el servidor de nuestro juego
 // 
@@ -29,10 +28,7 @@ server.listen(PORT,function(){
     console.log(`Listening on ${server.address().port}`);
 });
 
-require('dotenv').config();
-//const bcryptjs = require('bcryptjs');
-//const dbcon = require('db.js');
-
+const db = require('./public/js/db.js')
 const gameRooms = {
     // Elementos que habrá dentro de la constante
     /*[roomKey]:{
@@ -42,31 +38,63 @@ const gameRooms = {
         currentPlayer: 0,
     }*/
 };
+
 // Escuchamos a las conexiones y desconexiones
 io.on('connection', function (socket) {
     console.log(`A socket connection has been made: ${socket.id}`);
-    /*socket.on('checkUsername', function(username, password){
-        dbcon.connect(function(err){
-            if(err) throw err;
-              dbcon.query('IF EXISTS (SELECT 1 FROM User WHERE nombre = ' + pool.escape(username) + ')', function(err, row) {
-                if(err) {
-                    logger.error('Error in DB');
-                    logger.debug(err);
-                } else {
-                    if (!row) {
-                        username.setCustomValidity('');
-                        username.setCustomValidity('Usuario no válido');
-                    } else {
-                      username.reportValidity();
-                      dbcon.query('INSERT INTO User (nombre, contraseña) VALUES ?', [username, password], function (err, result) {
-                        if (err) throw err;
-                        socket.emit('newUser', row);
-                      });
-                    }
-                }
-            });
-        });
-    });*/
+    socket.on('checkUsername', async function(username, password){
+        console.log('check username');
+        let conn;
+        try{
+            conn = await db.pool.getConnection();
+            const rows = await conn.query('SELECT 1 as val FROM User WHERE nombre = "' + username + '";');
+            console.log(rows);
+            console.log(username);
+            if (rows[Object.keys(rows)[0]].val == 1) {
+                console.log('aq89oso');
+                if (conn) (conn).end; 
+                socket.emit('failUser');
+            } else {
+                console.log('hey');
+                conn.query('INSERT INTO User (nombre, contraseña) VALUES ("' + username + '", "' + password + '");');
+                const id = await conn.query('SELECT id as val FROM User WHERE nombre = "' + username + '";');
+                console.log(id[Object.keys(id)[0]]);
+                if (conn) (conn).end;
+                socket.emit('logUser', id[Object.keys(id)[0]].val);
+            }
+        } catch (err) {
+            console.log(err);
+            throw err;
+        } finally {
+            if (conn) (conn).end;
+        }
+    });
+
+    socket.on('checkLogIn', async function(username, password){
+        console.log('check username');
+        let conn;
+        try{
+            conn = await db.pool.getConnection();
+            const rows = await conn.query('SELECT 1 as val FROM User WHERE nombre = "' + username + '" AND contraseña = "' + password + '";');
+            console.log(rows);
+            console.log(username);
+            if (rows[Object.keys(rows)[0]].val != 1) {
+                console.log('aq89oso');
+                if (conn) (conn).end;
+            } else {
+                console.log('hey');
+                const id = await conn.query('SELECT id as val FROM User WHERE nombre = "' + username + '";');
+                console.log(id[Object.keys(id)[0]]);
+                if (conn) (conn).end;
+                socket.emit('logUser', id[Object.keys(id)[0]].val);
+            }
+        } catch (err) {
+            console.log(err);
+            throw err;
+        } finally {
+            if (conn) (conn).end;
+        }
+    });
 
     socket.on('disconnect', function () {
         let roomkey = 0;

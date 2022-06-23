@@ -53,43 +53,43 @@ export default class LogInRegister extends Phaser.Scene{
       var element = this.add.dom(this.cameras.main.worldView.x + this.cameras.main.width / 2, this.cameras.main.worldView.y + this.cameras.main.height).createFromCache('form');
       element.addListener('click');
       element.on('click', function(event){
+        socket.on('failUser', function(){
+          var usernamereg = element.getChildByName('usernamereg');
+          usernamereg.setCustomValidity('Usuario no válido');
+          usernamereg.reportValidity();
+        });
+        
+        socket.on('logUser', function(id){
+          element.removeListener('click');
+          //  Tween the login form out
+
+          element.scene.tweens.add({targets: element, alpha: 0.00, scaleX: 3, scaleY: 3, duration: 1000, ease: 'Power3',
+              onComplete: function ()
+              {
+                gamescene.scene.start('MainScene', {id: id, socket:socket});
+              }
+          });
+        });
         if(event.target.name === 'Registrar'){
           var usernameCreate = this.getChildByName('usernamereg');
           var passwordCreate = this.getChildByName('passwordreg');
           var passwordConfirm = this.getChildByName('passwordconf');
-
+          passwordCreate.addEventListener("invalid", function(){
+            passwordCreate.setCustomValidity('La contraseña debe tener al menos:\n - 8 caracteres\n - Un número\n - Una minúscula\n - Una mayúscula\n')
+            passwordCreate.reportValidity();
+          });
           //  Have they entered anything?
-          if (usernameCreate.value !== '' && passwordCreate.value !== '' && checkValidity(passwordCreate) && checkPaswords(passwordCreate,passwordConfirm))
-          {/*
-            socket.emit('checkUsername', usernameCreate, passwordCreate);
-            socket.on('newUser', function(id){
-              this.removeListener('click');
-              //  Tween the login form out
-
-              this.scene.tweens.add({targets: element, alpha: 0.00, scaleX: 3, scaleY: 3, duration: 1000, ease: 'Power3',
-                  onComplete: function ()
-                  {
-                    gamescene.scene.start('MainScene', {id: id, socket:socket});
-                  }
-              });
-            });*/
+          if (usernameCreate.value !== '' && passwordCreate.value !== '' && passwordCreate.checkValidity() && checkPaswords(passwordCreate,passwordConfirm))
+          {
+            socket.emit('checkUsername', usernameCreate.value, passwordCreate.value);
           }
         }
         else if(event.target.name === 'Iniciar'){
           var usernameLogin = this.getChildByName('usernamelog');
           var passwordLogin = this.getChildByName('passwordlog');
-          var idInicio = checkLogIn(usernameLogin, passwordLogin);
           //  Have they entered anything?
-          if (usernameLogin.value !== '' && passwordLogin.value !== '' && idInicio){
-            //  Turn off the click events
-            this.removeListener('click');
-            //  Tween the login form out  
-            this.scene.tweens.add({targets: element, alpha: 0.00, scaleX: 3, scaleY: 3, duration: 1000, ease: 'Power3',
-                onComplete: function ()
-                {
-                  gamescene.scene.start('MainScene', {id: idInicio, socket:socket});
-                }
-            });            
+          if (usernameLogin.value !== '' && passwordLogin.value !== ''){
+            socket.emit('checkLogIn', usernameLogin.value, passwordLogin.value);
           }
         }
       });
@@ -127,21 +127,7 @@ export default class LogInRegister extends Phaser.Scene{
     }
   }
 
-  function checkValidity(pwd){
-    const isValid = pwd.checkValidity();
-    pwd.setAttribute('aria-invalid', !isValid);
-    if (!isValid) {
-      pwd.setCustomValidity('La contraseña debe tener al menos:\n - 8 caracteres\n - Un número\n - Una minúscula\n - Una mayúscula\n')
-      pwd.reportValidity();
-      return false;
-    }
-    else {
-      return true;
-    }
-  }
-
   function checkLogIn(user, pwd){
-    
     if (true) {
       user.setCustomValidity('');
       return true;
@@ -149,7 +135,7 @@ export default class LogInRegister extends Phaser.Scene{
       user.setCustomValidity('Usuario no válido');
       user.reportValidity();
       return null;
-    }/*
+    }
     bcrypt.hash(pwd, saltRounds, (err, hash) => {
       dbcon.connect(function(err){
         if(err) throw err;
@@ -162,5 +148,5 @@ export default class LogInRegister extends Phaser.Scene{
             }
         });
       });
-    });*/
+    });
   }

@@ -27,7 +27,7 @@ export default class MainScene extends Phaser.Scene{
   // Código que se ejecuta al iniciar el juego por primera vez
   create(){ 
     const gamescene = this;
-    var name = this.userID.value;
+    var id = this.userID;
     var bg = gamescene.add.image(this.game.canvas.width*0, this.game.canvas.height*0, 'tint').setScale(20,20).setTint('0xD7FAFE');
     // ----------------------- Color ---------------------------
     this.sidebar = this.add.image(this.game.canvas.width*0.35, this.game.canvas.height*0, 'tint').setOrigin(1,0).setScale(10,10).setTint(rgb2Hex(255, 255, 255));
@@ -73,7 +73,7 @@ export default class MainScene extends Phaser.Scene{
           error_cod = error_cod.setActive(false).setVisible(false);
           error_cod = error_cod.setActive(true).setVisible(true);
         } else {
-          gamescene.scene.start('Gameplay', {name: name, socket: socket, key: code});
+          gamescene.scene.start('Gameplay', {id: id, socket: socket, key: code});
         }
       });
     });
@@ -103,7 +103,7 @@ export default class MainScene extends Phaser.Scene{
           error_cod = error_cod.setActive(false).setVisible(false);
           error_cod = error_cod.setActive(true).setVisible(true);
         } else {
-          gamescene.scene.start('Gameplay', {name: name, socket: socket, key: gameRoomInfo.roomKey});
+          gamescene.scene.start('Gameplay', {id: id, socket: socket, key: gameRoomInfo.roomKey});
         }
       });
       
