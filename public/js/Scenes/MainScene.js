@@ -32,7 +32,7 @@ export default class MainScene extends Phaser.Scene{
     // ----------------------- Color ---------------------------
     this.sidebar = this.add.image(this.game.canvas.width*0.35, this.game.canvas.height*0, 'tint').setOrigin(1,0).setScale(10,10).setTint(rgb2Hex(255, 255, 255));
     this.rgb = this.add.dom(this.game.canvas.width*0.18, this.game.canvas.height*0.4).createFromCache('RGB').setScale(1.25,1.25);
-    this.username = this.add.text(this.game.canvas.width*0.18, this.game.canvas.height*0.23, name, { color: 'black', align: 'center', fontFamily: 'Arial', fontSize: '32px'}).setOrigin(0.5,0);
+    this.username = this.add.text(this.game.canvas.width*0.18, this.game.canvas.height*0.23, id, { color: 'black', align: 'center', fontFamily: 'Arial', fontSize: '32px'}).setOrigin(0.5,0);
     var profile = this.add.image(this.game.canvas.width*0.18, this.game.canvas.height*0.15, 'Pf').setScale(0.1,0.1);
     // --------------------- Fin de Color -------------------------
     // ----------------------- Volumen ---------------------------
