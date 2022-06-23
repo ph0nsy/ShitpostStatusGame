@@ -80,7 +80,7 @@ export default class Gameplay extends Phaser.Scene{
     console.log(data);
     const gamescene = this;
     var key = data.key;
-    var name = data.name;
+    var name = data.id;
     var bg = gamescene.add.image(this.game.canvas.width*0, this.game.canvas.height*0, 'tint').setScale(20,20).setTint('0xD7FAFE');
     this.allPlayers = this.add.group();
     var readyForm = this.add.dom(this.game.canvas.width*0.6, this.game.canvas.height*0.35).createFromCache('SG').setActive(true).setVisible(true);
