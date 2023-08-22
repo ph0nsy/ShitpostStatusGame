@@ -20,5 +20,8 @@ class Game extends Phaser.Game {
 }
 // Create new instance of game
 window.onload = function () {
-  window.game = new Game();
+  setTimeout(function(){
+    document.getElementById("progress").remove();
+    document.getElementById("loadingBar").remove();
+    window.game = new Game();}, 5000);
 };

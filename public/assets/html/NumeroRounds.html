@@ -1,18 +1,36 @@
-
 <style>
   .transparent {
-    background-color: rgba(0, 0, 0, 0.3);
-    padding-left: 50px;
-    padding-right: 50px;
+    background-color: rgba(0, 0, 0, 0.85);
     padding-top: 20px;
     padding-bottom: 20px;
     border-radius: 25px;
     color: white;
   }
+  
+  .number-input {
+    display: inline-flex;
+    box-sizing: border-box;
+  }
+  
+  .number-input button {
+    outline:none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: none;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    cursor: pointer;
+    position: relative;
+  }
+
   input[type=submit] {
     background-color: white;
     color: black;
     border: 2px solid black;  
+    border-radius: 15px;
     padding: 8px 32px;
     text-align: center;
     text-decoration: none;
@@ -23,12 +41,12 @@
     margin-bottom: 12px;  
     margin-left: auto;
     margin-right: auto;
-    display: block;
   }
 
   input[type=submit]:hover {
     background-color: black;
     color: white;
+    
   }
 
   input[type=submit]:active{
@@ -38,37 +56,49 @@
   input[type=number]{
     background-color: white;
     color: black;
-    border: 2px solid black; 
-    padding: 8px 0;
-    padding-left: 3px;
-    font-size: 16px;
-    cursor: text;
-    margin-top: 12px;
-    margin-bottom: 12px;  
-    margin-left: auto;
-    margin-right: auto;
+    font-size: 22px;
+    border: 2px white;
+    text-align: center;
     display: block;
+    caret-color: transparent;
+    pointer-events: none;
   }
 
   input[type=number]::-webkit-inner-spin-button, 
   input[type=number]::-webkit-outer-spin-button {
-    cursor: pointer;
-    opacity: 1;
-    padding: 20px 9px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
   }
+  
+  button:hover{
+    background-color: black;
+    color: white;
+  }
+  
+  button:active{
+    background-color: gray;
+  }
+  
 </style>
 <div class="transparent">
   <table style="margin-left: auto; margin-right: auto;">
     <tbody>
       <tr>
-        <h4 style="text-align: center;">Introduzca el número de rondas<br>para crear una partida</h4>
+        <h4 style="text-align: center;">SET NUMBER OF ROUNDS</h4>
         <br>
-        <td><input type="number" name="rondas" size="30" min="1" max="3" value="1" required/></td>
+        <td style="margin: auto; text-align: center;">
+        	<div class="number-input">
+            <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" style="border-radius: 15px 0 0 15px;">-</button>
+            <input type="number" name="rondas" size="5" min="1" max="5" value="1" required/>
+            <button style="border-radius: 0 15px 15px 0;" onclick="this.parentNode.querySelector('input[type=number]').stepUp()">+</button>
+          </div>
+        </td>
       </tr>
     </tbody>
     <tfoot>
       <tr>
-        <td><input type="submit" name="Iniciar"></td>
+        <td><input type="submit" name="Iniciar" value="CREATE ROOM"></td>
       </tr>
     </tfoot>  
   </table>

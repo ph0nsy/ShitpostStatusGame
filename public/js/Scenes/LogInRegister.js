@@ -4,25 +4,28 @@ export default class LogInRegister extends Phaser.Scene{
     constructor() {
         super('LogInRegister');
     }
-    
     // Cargar assets y otros elementos para usarlos más adelante
     preload() {
-      var image1 = Math.floor((Math.random() * (27 - 1) ) + 1);
-      image1 = '../../assets/images/GameImages/' + image1.toString() + '.png';
-      var image2 = Math.floor((Math.random() * (55 - 28) ) + 28);
-      image2 = '../../assets/images/GameImages/' + image2.toString() + '.png';
-      this.load.image('rand1', image1);
-      this.load.image('rand2', image2);
-      this.load.image('bg', '../../assets/images/Background.jpg');
-      this.load.html('form', '../../assets/html/form.html');
+      //var image1 = Math.floor((Math.random() * (27 - 1) ) + 1);
+      //image1 = 'http://192.168.1.41:8081/assets/images/GameImages/' + image1.toString() + '.png';
+      //var image2 = Math.floor((Math.random() * (55 - 28) ) + 28);
+      //image2 = 'http://127.0.0.1:8081/assets/images/GameImages/' + image2.toString() + '.png';
+      const imageSet = albums.get('Shitpost Status 01');
+      this.load.image('rand1', imageSet[Math.floor(Math.random() * imageSet.length)]);
+      this.load.image('rand2', imageSet[Math.floor(Math.random() * imageSet.length)]);
+      this.load.image('rand1', 'https://i.imgur.com/NJsYVsW.png');
+      this.load.image('rand2', 'https://i.imgur.com/NJsYVsW.png');
+      this.load.image('bg', 'http://127.0.0.1:8081/assets/images/Background.jpg');
+      this.load.html('Join', 'http://127.0.0.1:8081/assets/html/CodigoPartida.html');
+      this.load.html('Create', 'http://127.0.0.1:8081/assets/html/NumeroRounds.html');
+      this.load.html('Error', 'http://127.0.0.1:8081/assets/html/ErrorCode.html');
+      this.load.html('Full', 'http://127.0.0.1:8081/assets/html/FullRoom.html');
+      
     }
     // Código que se ejecuta al iniciar el juego por primera vez
     create() {
       const gamescene = this;
-      var socket = io();
-      socket.on("connect", () => {
-        console.log(`A socket connection has been made: ${socket.id}`);
-      });
+      console.log(`A socket connection has been made: ${socket.id}`);
       // -------------------------- IMG de FONDO -----------------------------
       // Cargar la imagen fondo en el punto (0,0) del canvas y
       // hacer que la imagen fondo ocupe toda la pantalla
@@ -50,56 +53,103 @@ export default class LogInRegister extends Phaser.Scene{
       //
       // -------------------------- FORM en HTML -----------------------------
       var text = this.add.text(this.cameras.main.worldView.x + this.cameras.main.width / 2, this.game.canvas.height*0.05, 'SHITPOST\nSTATUS', { color: 'whitesmoke', align: 'center', fontFamily: 'MyFont', fontSize: '80px'}).setOrigin(0.5,0);
-      var element = this.add.dom(this.cameras.main.worldView.x + this.cameras.main.width / 2, this.cameras.main.worldView.y + this.cameras.main.height).createFromCache('form');
-      element.addListener('click');
-      element.on('click', function(event){
-        socket.on('failUser', function(){
-          var usernamereg = element.getChildByName('usernamereg');
-          usernamereg.setCustomValidity('Usuario no válido');
-          usernamereg.reportValidity();
-        });
-        
-        socket.on('logUser', function(id){
-          element.removeListener('click');
-          //  Tween the login form out
+      // -------------------------- Unirse a Partida -----------------------------
+    var full_r = this.add.dom(this.game.canvas.width*0.5, this.game.canvas.height*0.5).createFromCache('Full').setOrigin(0.5,0.5).setScale(1,1).setActive(false).setVisible(false);
+    full_r.addListener('click');
+    full_r.on('click', function(event){
+      if(event.target.name === 'Room_Full'){
+        full_r = full_r.setActive(false).setVisible(false);
+      }
+    });
 
-          element.scene.tweens.add({targets: element, alpha: 0.00, scaleX: 3, scaleY: 3, duration: 1000, ease: 'Power3',
-              onComplete: function ()
-              {
-                gamescene.scene.start('MainScene', {id: id, socket:socket});
-              }
-          });
-        });
-        if(event.target.name === 'Registrar'){
-          var usernameCreate = this.getChildByName('usernamereg');
-          var passwordCreate = this.getChildByName('passwordreg');
-          var passwordConfirm = this.getChildByName('passwordconf');
-          passwordCreate.addEventListener("invalid", function(){
-            passwordCreate.setCustomValidity('La contraseña debe tener al menos:\n - 8 caracteres\n - Un número\n - Una minúscula\n - Una mayúscula\n')
-            passwordCreate.reportValidity();
-          });
-          //  Have they entered anything?
-          if (usernameCreate.value !== '' && passwordCreate.value !== '' && passwordCreate.checkValidity() && checkPaswords(passwordCreate,passwordConfirm))
-          {
-            socket.emit('checkUsername', usernameCreate.value, passwordCreate.value);
-          }
+    var join_G = this.add.dom(this.game.canvas.width*0.5, this.game.canvas.height*0.5).createFromCache('Join');
+    join_G.addListener('click');
+    join_G.on('click', function(event){
+      if(event.target.name === 'Unirse'){
+        const codigo = this.getChildByName('codigopartida');
+        if(codigo.value.length == 6){
+          socket.emit('isKeyValid', codigo.value.toUpperCase());
         }
-        else if(event.target.name === 'Iniciar'){
-          var usernameLogin = this.getChildByName('usernamelog');
-          var passwordLogin = this.getChildByName('passwordlog');
-          //  Have they entered anything?
-          if (usernameLogin.value !== '' && passwordLogin.value !== ''){
-            socket.emit('checkLogIn', usernameLogin.value, passwordLogin.value);
-          }
+      }
+    });
+
+    socket.on('keyNotValid', function(){
+      error_cod = error_cod.setActive(false).setVisible(false);
+      error_cod = error_cod.setActive(true).setVisible(true);
+    });
+
+    socket.on('keyIsValid', function(code){
+        
+      socket.emit('joinRoom', code);
+
+      socket.on('roomFull', function(isfull){
+        if(isfull){
+          error_cod = error_cod.setActive(false).setVisible(false);
+          error_cod = error_cod.setActive(true).setVisible(true);
+        } else {
+          gamescene.scene.start('Gameplay', {id: id, socket: socket, key: code});
         }
       });
+    });
+    // --------------------- Fin de Unirse a Partida -------------------------
+    // -------------------------- Crear Partida -----------------------------
+    var create_G = this.add.dom(this.game.canvas.width*0.5, this.game.canvas.height*0.5).createFromCache('Create');     
+    create_G.addListener('click');
+    create_G.on('click', function(event){
+      if(event.target.name === 'Iniciar'){
+        var noRondas = this.getChildByName('rondas');
+        if(noRondas.value>3){
+          noRondas.value = 3;
+        }
+        else if (noRondas.value<1){
+          noRondas.value = 1;
+        }
+        socket.emit('createRoom', noRondas.value);
+      }
+    });
+
+    socket.on('roomCreated', function(gameRoomInfo){
+        
+      socket.emit('joinRoom', gameRoomInfo.roomKey);
+
+      socket.on('roomFull', function(isfull){
+        if(isfull){
+          error_cod = error_cod.setActive(false).setVisible(false);
+          error_cod = error_cod.setActive(true).setVisible(true);
+        } else {
+          gamescene.scene.start('Gameplay', {id: id, socket: socket, key: gameRoomInfo.roomKey});
+        }
+      });
+      
+    });
+    // --------------------- Fin de Crear Partida -------------------------
+    // -------------------------- Error Form -----------------------------
+    var error_cod = this.add.dom(this.game.canvas.width*0.5, this.game.canvas.height*0.5).createFromCache('Error').setOrigin(0.5,0.5).setScale(1,1).setActive(false).setVisible(false);
+    error_cod.addListener('click');
+    error_cod.on('click', function(event){
+      if(event.target.name === 'Code_Error'){
+        error_cod = error_cod.setActive(false).setVisible(false);
+        
+        gamescene.registry.destroy(); // destroy registry
+        gamescene.events.off(); // disable all active events
+        gamescene.scene.restart(); // restart current scene
+      }
+    });
+    // -------------------------- Fin Error Form -----------------------------
+      
       // Animación de entrada del formulario
       // Sube hacia arriba desde la posición en la que se inicializa
       // hasta la que esta puesta en 'y'
       this.tweens.add({
-        targets: element,
-        y: this.game.canvas.height*0.58,
-        duration: 2000,
+        targets: join_G,
+        y: this.game.canvas.height*0.4,
+        duration: 500,
+        ease: 'Power3'
+      });
+      this.tweens.add({
+        targets: create_G,
+        y: this.game.canvas.height*0.68,
+        duration: 500,
         ease: 'Power3'
       });
       // --------------------------  FIN FORM en HTML -----------------------------|

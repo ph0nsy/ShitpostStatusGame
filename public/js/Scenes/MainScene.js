@@ -13,16 +13,16 @@ export default class MainScene extends Phaser.Scene{
   }
   // Cargar assets y otros elementos para usarlos más adelante
   preload() {
-    this.load.image('tint', '../../assets/images/tintable.png');
-    this.load.image('GH', '../../assets/images/GitHubLogo.png');
-    this.load.image('UFV', '../../assets/images/LogoUFV.jpg');
-    this.load.image('Pf', '../../assets/images/Pfp.png');
-    this.load.html('RGB', '../../assets/html/RGB.html');
-    this.load.html('Vol', '../../assets/html/Volumen.html');
-    this.load.html('Join', '../../assets/html/CodigoPartida.html');
-    this.load.html('Create', '../../assets/html/NumeroRounds.html');
-    this.load.html('Error', '../../assets/html/ErrorCode.html');
-    this.load.html('Full', '../../assets/html/FullRoom.html');
+    this.load.image('tint', './assets/images/tintable.png');
+    this.load.image('GH', './assets/images/GitHubLogo.png');
+    this.load.image('UFV', './assets/images/LogoUFV.jpg');
+    this.load.image('Pf', './assets/images/Pfp.png');
+    this.load.html('RGB', './assets/html/RGB.html');
+    this.load.html('Vol', './assets/html/Volumen.html');
+    this.load.html('Join', './assets/html/CodigoPartida.html');
+    this.load.html('Create', './assets/html/NumeroRounds.html');
+    this.load.html('Error', './assets/html/ErrorCode.html');
+    this.load.html('Full', './assets/html/FullRoom.html');
   } 
   // Código que se ejecuta al iniciar el juego por primera vez
   create(){ 
