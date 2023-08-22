@@ -10,7 +10,7 @@
         <!--Esto funciona porque al instalar socket.io se crea un virtual path a la dirección del script -->
         <script src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.min.js"></script>
         <script src="https://cdn.socket.io/4.4.1/socket.io.min.js" integrity="sha384-fKnu0iswBIqkjxrhQCTZ7qlLHOFEgNkRmK2vaO/LbTZSXdJfAu6ewRBdwHPhBo/H" crossorigin="anonymous"></script>
-        <script> const socket = io('http://localhost:8081');</script>
+        <script> const socket = io('https://shitpoststatus.vercel.app/');</script>
         <script>
             let albums;
             socket.emit('getImages');
@@ -34,7 +34,7 @@
         <style>
             @font-face {
                 font-family: MyFont;
-                src: url('assets/BirdlandAeroplaneBold.otf');
+                src: url('https://shitpoststatus.vercel.app/assets/BirdlandAeroplaneBold.otf');
             }
             html, body, #game {
                 height: 100%;
@@ -66,7 +66,7 @@
                 background-color: #04AA6D;
             }
         </style>
-        <link rel="preload" as="font" href="assets/BirdlandAeroplaneBold.otf" type="font/otf" crossorigin="anonymous" />
+        <link rel="preload" as="font" href="https://shitpoststatus.vercel.app/assets/BirdlandAeroplaneBold.otf" type="font/otf" crossorigin="anonymous" />
     </head>
     <body>
         <div id="loadingBar">
@@ -74,5 +74,5 @@
         </div>         
         <div id="game"></div>
     </body>
-    <script type="module" src="js/game.js"></script>
+    <script type="module" src="https://shitpoststatus.vercel.app/js/game.js"></script>
 </html>

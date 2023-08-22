@@ -87,7 +87,8 @@ export default class LogInRegister extends Phaser.Scene{
           error_cod = error_cod.setActive(false).setVisible(false);
           error_cod = error_cod.setActive(true).setVisible(true);
         } else {
-          gamescene.scene.start('Gameplay', {id: id, socket: socket, key: code});
+          console.log(code);
+          gamescene.scene.start('Gameplay', {id: socket.id, socket: socket, key: code});
         }
       });
     });
@@ -117,7 +118,8 @@ export default class LogInRegister extends Phaser.Scene{
           error_cod = error_cod.setActive(false).setVisible(false);
           error_cod = error_cod.setActive(true).setVisible(true);
         } else {
-          gamescene.scene.start('Gameplay', {id: id, socket: socket, key: gameRoomInfo.roomKey});
+          console.log(gameRoomInfo.roomKey);
+          gamescene.scene.start('Gameplay', {id: socket.id, socket: socket, key: gameRoomInfo.roomKey});
         }
       });
       
