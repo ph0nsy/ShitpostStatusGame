@@ -1,7 +1,7 @@
-import config from 'https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js/config.js';
-import LogInRegister from 'https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js/Scenes/LogInRegister.js';
-import MainScene from 'https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js/Scenes/MainScene.js';
-import Gameplay from "https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js/Scenes/Gameplay.js";
+import config from './config.js';
+import LogInRegister from './Scenes/LogInRegister.js';
+import MainScene from './Scenes/MainScene.js';
+import Gameplay from "./Scenes/Gameplay.js";
 
 /**
  * Constructor del juego que gestiona las escenas
