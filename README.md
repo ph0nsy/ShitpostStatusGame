@@ -1,117 +1,54 @@
-# Proyectos_2-UFV
-Desarrollo de un juego online por turnos para la asignatura de Proyectos 2 en la Universidad Francisco de Vitoria.
+# Shitpost Status
 
-## Tecnologías
+<p align="center">
+  <img src="https://img.itch.zone/aW1nLzEzMjAyNzkwLnBuZw==/x150/08hMnI.png" alt="Cover Image" />
+</p>
 
-+ [HTML5](https://www.w3schools.com/html/)
-+ [JavaScript](https://www.javascript.com/)
-+ [Phaser.io](https://phaser.io/ "Librería de Game Development")
-+ [Node.JS](https://nodejs.org/en/ "Servidor")
-+ [Express](https://expressjs.com/ "Simplificar el servidor")
-+ [Socket.io](https://socket.io/ "Conexión con la Base de Datos")
-+ [MySQL](https://www.mysql.com/ "Base de Datos")
-+ [GitHub](github.com "Repositorio del proyecto")
-+ [Azure DevOps](https://azure.microsoft.com/en-us/services/devops/ "Planeadore de Scrum")
-+ [Video Referencia](https://www.youtube.com/watch?v=fEwAgKBgoJM&t=817s&ab_channel=M.S.Farzan "Referencias")
+<p align="center">A "Cards Against Humanity" like game with memes and YOUR prompts!</p>
 
-## Diseño
+## Table of Contents
 
-### Introducción
-A continuación veremos todas las cuestiones de diseño que permitirán que la aplicación funciones correctamente. El juego en cuestión será un juego de cartas online que tendrá cartas de diferentes valores y costes que favorecerán una jugabilidad rápida y original
+1. [ Game Description. ](#desc)
+2. [ Where to play? ](#where)
+3. [ What does the game use? ](#how)
+4. [ Where are the memes? ](#memes)
 
-### Historias de Usuario
+<hr>
 
-**Registro e Inicio de Sesión**
-+ El jugador deberá poder registrar su usuario y contraseña
-+ El nombre del jugador deberá ser único
-+ La sesión deberá iniciarse automáticamente después del que el jugador se haya registrado
+<a name="desc"></a>
+## Game Description
 
-**Pantalla de inicio**
-+ El jugador deberá poder cambiar su avatar entre una lista de avatares predeterminados
-+ El jugador podrá cambiar su nombre de jugador (pero no el nombre de su cuenta)
-+ El jugador deberá poder ver una lista con los amigos que ha añadido
-+ El jugador deberá poder ver una lista de las cartas que existen en el juego
-+ El jugador deberá poder ver una lista de los mazos que tiene disponibles a elegir
-+ El jugador deberá poder cambiar el mazo elegido
-+ El jugador deberá poder ver una lista de las cartas que hay en un mazo
-+ El jugador deberá poder buscar partida online desde la pantalla de inicio
-+ El jugador deberá poder iniciar una partida offline contra una IA desde la pantalla de inicio
-+ El jugador deberá poder crear partidas personalizadas mediante un código generado por el ordenador
-+ El jugador deberá poder entrar en partidas personalizadas mediante introducir un código dado por otro jugador
-+ El jugador podrá añadir amigos a la lista según su ID de jugador
-+ El jugador podrá ver (pero no cambiar) su ID de jugador
+Get a group of up to 8 of your funniest friends, answer each other's prompts with an out of context image from our library and let the enquirer choose the funniest one.
 
-**Partida Online**
-+ Cada jugador tendrá un número de acciones que podrán realizar en un turno
-+ El jugador deberá poder ver el número de cartas que tiene el enemigo
-+ El jugador deberá poder ver el número de cartas que le quedan al mazo del enemigo
-+ El jugador deberá poder ver el número de cartas que le quedan a su mazo
-+ El jugador deberá poder ver las cartas de su mano
-+ El jugador deberá poder jugar sus cartas y (si es necesario) seleccionar un objetivo
-+ El jugador ganará un número de costes de acción fijos por turno
-+ Los costes de acción son acumulables
+Let's really see who really is the funniest of you all (or at least the best shitposter)!
 
-**IA Offline**
-+ La IA elegirá jugar cartas al azar de un mazo personalizado y (si es necesario) seleccionar un objetivo al azar en función al coste de acción
+Let the shitpost BEGIN!
 
-**Sistemas**
-+ Las información de las cartas vendrá dada por un archivo json que describirá todas sus características
-+ Las cartas podrán ser de tipo ataque
-+ Las cartas podrán ser de tipo ataque futuro
-+ Las cartas podrán ser de tipo trampa estatus
-+ Las cartas podrán ser de tipo trampa ataque
-+ Las cartas podrán ser de tipo curación
-+ Las cartas podrán ser de tipo defensa
-+ Las cartas podrán ser de tipo devolver daño
-+ Las cartas podrán ser de tipo estatus negativo
-+ Las cartas podrán ser de tipo estatus daño
-+ Las cartas podrán ser de tipo estatus defensa
-+ Las cartas podrán ser de tipo estatus curación
-+ Las cartas tendrán valores que determinarán la potencia de la misma
-+ Las cartas tendrán un coste de acción
 
-**Matchmaking**
-+ El sistema deberá poder buscar un jugador que no esté en partida según un booleano
-+ El sistema agregará un código de la partida a los 2 jugadores que participan en la misma 
-+ El sistemá llevará a ambos jugadores a una partida
+<a name="where"></a>
+## Where to play?
 
-**Matchmaking personalizado**
-+ El sistema dará un código al jugador, lo llevará a una partida y cambiará el código de partida del jugador
-+ El sistema dejará introducir un código al jugador que lo llevará a una partida y cambiará el código del jugador
-+ El sistema dará un booleano de en partida cuando ambos jugadores tengan el mismo código de partida e iniciará la partida
+The game is not published yet; however, you will be able to play it in:
++ [Itch.io](https://ph0nsy.itch.io/shitpost-status)
++ [Vercel](https://github.com/ph0nsy/ShitpostStatusGame)
 
-### Diseño de la Base de Datos
-Descripción
+<a name="how"></a>
+## What does the game use?
 
-#### Tablas
+| Technology | Usage                                                                                                                           | Documentation                                     |
+|------------|---------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------|
+| imgur.com  | Image sets are hosted as imgur albums and then brought into the game to reduce the space needed for both the server and client. | [imgur API](https://apidocs.imgur.com/)           |
+| Phaser 3   | Game framework used for managing game assets and scenes. Basically what the game is constructed on.                             | [phaser.io](https://phaser.io/learn)              |
+| Express JS | Management of client and server in Node JS.                                                                                     | [expressjs](https://expressjs.com/en/4x/api.html) |
+| Socket.IO  | Room and users management for multiplayer. Basically what the multiplayer aspect of the game is based on.                       | [socket.io](https://socket.io/)                   |
 
-**Usuario**
+<a name="memes"></a>
+## Where are the memes?
 
-- idUser
-- char userName
-- char password
-- image icono
-- array idAmigos
+All the images are hosted on an imgur account as albums. 
 
-**Jugador**
+Current _Image Sets_:
 
-- idJugador
-- array idDeck
-- array idMano
-- id codPartida
-- bool partida
-- int costeAccion
-
-### Diseño de las Pantallas
-A continuación veremos las Pantallas de la aplicación
-
-#### Registro / Inicio de Sesión
-Una pantalla inicial para poder tanto iniciar sesión como registrarse.
-
-#### Cliente principal
-Entorno base del jugador donde poder comprobar cartas, personalizar su usuario y buscar partidas
-
-#### Juego Online
-Entorno en el que vamos a desarrollar las partidas
-
++ 🥇 [01](https://imgur.com/a/JOd3bxM) set
++ 🍖 [Food](https://imgur.com/a/rWug7tX) set
 
