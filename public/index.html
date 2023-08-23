@@ -9,7 +9,7 @@
         <!--Esto funciona porque al instalar socket.io se crea un virtual path a la dirección del script -->
         <script src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.min.js"></script>
         <script src="https://cdn.socket.io/4.4.1/socket.io.min.js" integrity="sha384-fKnu0iswBIqkjxrhQCTZ7qlLHOFEgNkRmK2vaO/LbTZSXdJfAu6ewRBdwHPhBo/H" crossorigin="anonymous"></script>
-        <script> const socket = io('https://shitpoststatus.vercel.app:8081');</script>
+        <script> const socket = io('https://shitpost-status.onrender.com');</script>
         <script>
             let albums;
             socket.emit('getImages');

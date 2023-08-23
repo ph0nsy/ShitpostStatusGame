@@ -15,11 +15,11 @@ export default class LogInRegister extends Phaser.Scene{
       this.load.image('rand2', imageSet[Math.floor(Math.random() * imageSet.length)]);
       this.load.image('rand1', 'https://i.imgur.com/NJsYVsW.png');
       this.load.image('rand2', 'https://i.imgur.com/NJsYVsW.png');
-      this.load.image('bg', 'https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js/assets/images/Background.jpg');
-      this.load.html('Join', 'https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js/assets/html/CodigoPartida.html');
-      this.load.html('Create', 'https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js/assets/html/NumeroRounds.html');
-      this.load.html('Error', 'https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js/assets/html/ErrorCode.html');
-      this.load.html('Full', 'https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js/assets/html/FullRoom.html');
+      this.load.image('bg', 'https://shitpost-status.onrender.com/assets/images/Background.jpg');
+      this.load.html('Join', 'https://shitpost-status.onrender.com/assets/html/CodigoPartida.html');
+      this.load.html('Create', 'https://shitpost-status.onrender.com/assets/html/NumeroRounds.html');
+      this.load.html('Error', 'https://shitpost-status.onrender.com/assets/html/ErrorCode.html');
+      this.load.html('Full', 'https://shitpost-status.onrender.com/assets/html/FullRoom.html');
       
     }
     // Código que se ejecuta al iniciar el juego por primera vez
