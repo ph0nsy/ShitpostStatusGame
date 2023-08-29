@@ -30,7 +30,7 @@ Let the shitpost BEGIN!
 
 The game is not published yet; however, you will be able to play it in:
 + [Itch.io](https://ph0nsy.itch.io/shitpost-status)
-+ [Vercel](https://github.com/ph0nsy/ShitpostStatusGame)
++ [Render](https://shitpost-status.onrender.com/)
 
 <a name="how"></a>
 ## What does the game use?
