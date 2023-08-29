@@ -52,3 +52,9 @@ Current _Image Sets_:
 + 🥇 [01](https://imgur.com/a/JOd3bxM) set
 + 🍖 [Food](https://imgur.com/a/rWug7tX) set
 
+## Special Thanks
+
+To:
+
++ Nacho Pomares ([Github](https://github.com/NachoPomares)) as Collaborator
++ Hannah Bates ([Blog](https://hannahrobot.com/), [Github](https://github.com/hannahrobot)) whose work was a huge help.
