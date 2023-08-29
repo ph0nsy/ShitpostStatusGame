@@ -56,5 +56,5 @@ Current _Image Sets_:
 
 To:
 
-+ Nacho Pomares ([Github](https://github.com/NachoPomares)) as Collaborator
-+ Hannah Bates ([Blog](https://hannahrobot.com/), [Github](https://github.com/hannahrobot)) whose work was a huge help.
++ Nacho Pomares as Collaborator <a href="https://github.com/NachoPomares"><img src="https://github.com/FortAwesome/Font-Awesome/blob/6.x/svgs/brands/github.svg" width="30" height="30"></a> 
++ Hannah Bates whose work was a huge help <a href="https://github.com/hannahrobot"><img src="https://github.com/FortAwesome/Font-Awesome/blob/6.x/svgs/brands/github.svg" width="30" height="30"></a> <a href="https://hannahrobot.com/"><img src="https://github.com/FortAwesome/Font-Awesome/blob/6.x/svgs/brands/wordpress.svg" width="30" height="30"></a> 
