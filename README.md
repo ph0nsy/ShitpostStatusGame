@@ -30,7 +30,7 @@ Let the shitpost BEGIN!
 
 The game is not published yet; however, you will be able to play it in:
 + [Itch.io](https://ph0nsy.itch.io/shitpost-status)
-+ [Vercel](https://github.com/ph0nsy/ShitpostStatusGame)
++ [Render](https://shitpost-status.onrender.com/)
 
 <a name="how"></a>
 ## What does the game use?
@@ -52,3 +52,9 @@ Current _Image Sets_:
 + 🥇 [01](https://imgur.com/a/JOd3bxM) set
 + 🍖 [Food](https://imgur.com/a/rWug7tX) set
 
+## Special Thanks
+
+To:
+
++ Nacho Pomares as Collaborator <a href="https://github.com/NachoPomares"><img src="https://github.com/FortAwesome/Font-Awesome/blob/6.x/svgs/brands/github.svg" width="30" height="30"></a> 
++ Hannah Bates whose work was a huge help <a href="https://github.com/hannahrobot"><img src="https://github.com/FortAwesome/Font-Awesome/blob/6.x/svgs/brands/github.svg" width="30" height="30"></a> <a href="https://hannahrobot.com/"><img src="https://github.com/FortAwesome/Font-Awesome/blob/6.x/svgs/brands/wordpress.svg" width="30" height="30"></a> 
