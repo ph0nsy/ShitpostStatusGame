@@ -52,7 +52,7 @@ export default class LogInRegister extends Phaser.Scene{
       imgR2.rotation += 0.45;
       //
       // -------------------------- FORM en HTML -----------------------------
-      var text = this.add.text(this.cameras.main.worldView.x + this.cameras.main.width / 2, this.game.canvas.height*0.05, 'SHITPOST\nSTATUS', { color: 'whitesmoke', align: 'center', fontFamily: 'MyFont', fontSize: '80px'}).setOrigin(0.5,0);
+      var text = this.add.text(this.cameras.main.worldView.x + this.cameras.main.width / 2, this.game.canvas.height*0.05, 'SHITPOST\nSTATUS', { color: 'whitesmoke', align: 'center', fontFamily: 'BirldandAero', fontSize: '80px'}).setOrigin(0.5,0);
       // -------------------------- Unirse a Partida -----------------------------
     var full_r = this.add.dom(this.game.canvas.width*0.5, this.game.canvas.height*0.5).createFromCache('Full').setOrigin(0.5,0.5).setScale(1,1).setActive(false).setVisible(false);
     full_r.addListener('click');
@@ -158,47 +158,4 @@ export default class LogInRegister extends Phaser.Scene{
     }
     // Código que se ejecutara cada frame (loop jugable del juego)
     update() {    }
-  }
-
-
-  function checkUsername(username){
-
-  }
-
-  // Para comprobar que las contraseñas coinciden
-  function checkPaswords(pswOg, pswDb){
-    // Ambas contraseñas coinciden
-    if (pswOg.value == pswDb.value){
-      pswDb.setCustomValidity('');
-      return true;
-    }
-    else {
-      pswDb.setCustomValidity('Las contraseñas no coinciden');
-      pswDb.reportValidity();
-      return false;
-    }
-  }
-
-  function checkLogIn(user, pwd){
-    if (true) {
-      user.setCustomValidity('');
-      return true;
-    } else {
-      user.setCustomValidity('Usuario no válido');
-      user.reportValidity();
-      return null;
-    }
-    bcrypt.hash(pwd, saltRounds, (err, hash) => {
-      dbcon.connect(function(err){
-        if(err) throw err;
-          dbcon.query('SELECT id FROM User WHERE nombre = ? AND contraseña = ?', [pool.escape(user), pool.escape(hash)], function(err, row) {
-            if(err) {
-                logger.error('Error in DB');
-                logger.debug(err);
-                return;
-            } else {
-            }
-        });
-      });
-    });
   }

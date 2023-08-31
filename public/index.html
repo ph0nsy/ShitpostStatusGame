@@ -7,12 +7,12 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
         <!--Esto funciona porque al instalar socket.io se crea un virtual path a la dirección del script -->
-        <script src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.min.js"></script>
         <script src="https://cdn.socket.io/4.4.1/socket.io.min.js" integrity="sha384-fKnu0iswBIqkjxrhQCTZ7qlLHOFEgNkRmK2vaO/LbTZSXdJfAu6ewRBdwHPhBo/H" crossorigin="anonymous"></script>
-        <script> const socket = io('https://shitpost-status.onrender.com');</script>
+        <script> const socket = io('http://localhost:8081');</script>
         <script>
             let albums;
-            socket.emit('getImages');
+            socket.emit('getImages');                                   
             socket.on('haveImages', (json) => {
                 albums = new Map(Object.entries(JSON.parse(json)));
             });
@@ -32,7 +32,7 @@
         </script>
         <style>
             @font-face {
-                font-family: MyFont;
+                font-family: BirldandAero;
                 src: url('assets/BirdlandAeroplaneBold.otf');
             }
             html, body, #game {
@@ -65,6 +65,7 @@
                 background-color: #04AA6D;
             }
         </style>
+        <link href="https://fonts.cdnfonts.com/css/impact" rel="stylesheet">
         <link rel="preload" as="font" href="assets/BirdlandAeroplaneBold.otf" type="font/otf" crossorigin="anonymous" />
     </head>
     <body>
