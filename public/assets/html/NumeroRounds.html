@@ -86,13 +86,14 @@
     <tbody>
       <tr>
         <h4 style="text-align: center;">SET NUMBER OF ROUNDS</h4>
-        <br>
-        <td style="margin: auto; text-align: center;">
+        <td style="margin: auto; text-align: center; padding-top:10px;">
         	<div class="number-input">
             <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" style="border-radius: 15px 0 0 15px;">-</button>
             <input type="number" name="rondas" size="5" min="1" max="5" value="1" required/>
             <button style="border-radius: 0 15px 15px 0;" onclick="this.parentNode.querySelector('input[type=number]').stepUp()">+</button>
           </div>
+          <br>
+          <input type="text" name="username" style="text-transform:uppercase; margin-top:10px; margin-bottom:5px" size="12" maxlength="12" placeholder="username"/>
         </td>
       </tr>
     </tbody>

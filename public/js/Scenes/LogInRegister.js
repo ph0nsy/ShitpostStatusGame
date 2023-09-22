@@ -6,15 +6,9 @@ export default class LogInRegister extends Phaser.Scene{
     }
     // Cargar assets y otros elementos para usarlos más adelante
     preload() {
-      //var image1 = Math.floor((Math.random() * (27 - 1) ) + 1);
-      //image1 = 'http://192.168.1.41:8081/assets/images/GameImages/' + image1.toString() + '.png';
-      //var image2 = Math.floor((Math.random() * (55 - 28) ) + 28);
-      //image2 = 'http://127.0.0.1:8081/assets/images/GameImages/' + image2.toString() + '.png';
       const imageSet = albums.get('Shitpost Status 01');
       this.load.image('rand1', imageSet[Math.floor(Math.random() * imageSet.length)]);
       this.load.image('rand2', imageSet[Math.floor(Math.random() * imageSet.length)]);
-      this.load.image('rand1', 'https://i.imgur.com/NJsYVsW.png');
-      this.load.image('rand2', 'https://i.imgur.com/NJsYVsW.png');
       this.load.image('bg', 'https://shitpost-status.onrender.com/assets/images/Background.jpg');
       this.load.html('Join', 'https://shitpost-status.onrender.com/assets/html/CodigoPartida.html');
       this.load.html('Create', 'https://shitpost-status.onrender.com/assets/html/NumeroRounds.html');

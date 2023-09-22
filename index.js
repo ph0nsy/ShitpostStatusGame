@@ -164,6 +164,7 @@ io.on('connection', function (socket) {
             username: name,
             score: 0,
             ready: 0,
+            selected_img: '',
         };
         console.log('roomInfo ', roomInfo);
 
@@ -193,6 +194,7 @@ io.on('connection', function (socket) {
                 allReady++; 
             }
         });
+        console.log(roomInfo.numPlayers);
         if(!roomInfo || (roomInfo && roomInfo.numPlayers > 5) || (Object.keys(roomInfo.players).length > 0 && allReady >= Object.keys(roomInfo.players).length)) {
             socket.emit('roomFull', true);
         } else {
@@ -216,6 +218,7 @@ io.on('connection', function (socket) {
             numPlayers: 0,
             numRounds: rounds,
             currentPlayer: 0,
+            currentSelected: {},
         };
         socket.emit('roomCreated', gameRooms[key]);
     });
