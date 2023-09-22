@@ -8,9 +8,9 @@ const { ImgurClient } = require('imgur');
 require('dotenv').config();
 
 const client = new ImgurClient({
-    clientId: 'd117d6ff408f666',//process.env.CLIENT_ID,
-    clientSecret: '1bec536045c9da839d47891b06e78817d24f17ff',//process.env.CLIENT_SECRET,
-    refreshToken: '218d0c255ae3a4ef379efd20aa377a8a43018e96',//process.env.REFRESH_TOKEN,
+    clientId: process.env.CLIENT_ID,// || 'd117d6ff408f666',
+    clientSecret: process.env.CLIENT_SECRET,// || '1bec536045c9da839d47891b06e78817d24f17ff',
+    refreshToken: process.env.REFRESH_TOKEN,// || '218d0c255ae3a4ef379efd20aa377a8a43018e96',
   });
     
 

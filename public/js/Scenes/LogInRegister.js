@@ -10,8 +10,8 @@ export default class LogInRegister extends Phaser.Scene{
       this.load.image('rand1', imageSet[Math.floor(Math.random() * imageSet.length)]);
       this.load.image('rand2', imageSet[Math.floor(Math.random() * imageSet.length)]);
       this.load.image('bg', 'https://shitpost-status.onrender.com/assets/images/Background.jpg');
-      this.load.html('Join', 'https://shitpost-status.onrender.com/assets/html/CodigoPartida.html');
-      this.load.html('Create', 'https://shitpost-status.onrender.com/assets/html/NumeroRounds.html');
+      this.load.html('Join', './assets/html/CodigoPartida.html');
+      this.load.html('Create', './assets/html/NumeroRounds.html');
       this.load.html('Error', 'https://shitpost-status.onrender.com/assets/html/ErrorCode.html');
       this.load.html('Full', 'https://shitpost-status.onrender.com/assets/html/FullRoom.html');
       
@@ -138,13 +138,13 @@ export default class LogInRegister extends Phaser.Scene{
       // hasta la que esta puesta en 'y'
       this.tweens.add({
         targets: join_G,
-        y: this.game.canvas.height*0.4,
+        y: gamescene.game.canvas.height*0.42,
         duration: 500,
         ease: 'Power3'
       });
       this.tweens.add({
         targets: create_G,
-        y: this.game.canvas.height*0.68,
+        y: gamescene.game.canvas.height*0.72,
         duration: 500,
         ease: 'Power3'
       });
