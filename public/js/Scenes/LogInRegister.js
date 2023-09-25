@@ -10,8 +10,8 @@ export default class LogInRegister extends Phaser.Scene{
       this.load.image('rand1', imageSet[Math.floor(Math.random() * imageSet.length)]);
       this.load.image('rand2', imageSet[Math.floor(Math.random() * imageSet.length)]);
       this.load.image('bg', 'https://shitpost-status.onrender.com/assets/images/Background.jpg');
-      this.load.html('Join', './assets/html/CodigoPartida.html');
-      this.load.html('Create', './assets/html/NumeroRounds.html');
+      this.load.html('Join', 'https://shitpost-status.onrender.com/assets/html/CodigoPartida.html');
+      this.load.html('Create', 'https://shitpost-status.onrender.com/assets/html/NumeroRounds.html');
       this.load.html('Error', 'https://shitpost-status.onrender.com/assets/html/ErrorCode.html');
       this.load.html('Full', 'https://shitpost-status.onrender.com/assets/html/FullRoom.html');
       
