@@ -308,21 +308,10 @@ export default class Gameplay extends Phaser.Scene{
     });
 
     const winner = this.add.text(this.game.canvas.width*0.5, this.game.canvas.height*0.3, '', { color: 'whitesmoke', align: 'center', fontFamily: 'Impact', fontSize: '50px', wordWrap: { width: this.game.canvas.width*0.45, useAdvancedWrap: true}}).setOrigin(0.5,0.5).setVisible(false).setStroke('black', 4);
-    
-    const emitter = this.add.particles(gamescene.game.canvas.width*0.5, gamescene.game.canvas.height*0.3, 'flares', {
-      frame: [ 'red', 'yellow', 'green' ],
-      lifespan: 800,
-      speed: { min: 150, max: 250 },
-      scale: { start: 0.1, end: 0 },
-      gravityY: 50,
-      blendMode: 'ADD',
-      emitting: true,
-    }).setVisible(false);
 
     const playAgain = this.add.dom(this.game.canvas.width*0.5, this.game.canvas.height*0.6).createFromCache('PA').setVisible(false).setOrigin(0.5,0.5).addListener('click').on('click', function(event){
       if(event.target.name === 'playAgain'){
         waitPlayers.setVisible(true);
-        emitter.setVisible(false);
         winner.setVisible(false);
         playAgain.setVisible(false);
         socket.emit('ready', key, socket.id);
@@ -356,7 +345,6 @@ export default class Gameplay extends Phaser.Scene{
       
       winner.setText('WINNER:\u000a' + winner_name);
       winner.setVisible(true);
-      emitter.setVisible(true);
       playAgain.setVisible(true);  
     });
 
