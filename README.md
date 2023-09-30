@@ -78,5 +78,5 @@ Updates planned besides the currently known bugs:
 
 To:
 
-+ Nacho Pomares as Collaborator ( <a href="https://github.com/NachoPomares">github</a> ).
++ Nacho Pomares as Collaborator ( <a href="https://github.com/NachoPomares">github</a> | <a href="https://es.linkedin.com/in/ignacio-pomares-ricord-b96a4515b">linkedin</a> ).
 + Hannah Bates whose guides were a huge help ( <a href="https://github.com/hannahrobot" style="background-color:white">github</a> | <a href="https://hannahrobot.com/">blog</a> ).
