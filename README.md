@@ -12,6 +12,7 @@
 2. [ Where to play? ](#where)
 3. [ What does the game use? ](#how)
 4. [ Where are the memes? ](#memes)
+5. [ What's Next? ](#how)
 
 <hr>
 
