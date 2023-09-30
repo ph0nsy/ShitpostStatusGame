@@ -41,6 +41,7 @@ The game is not published yet; however, you will be able to play it in:
 | Phaser 3   | Game framework used for managing game assets and scenes. Basically what the game is constructed on.                             | [phaser.io](https://phaser.io/learn)              |
 | Express JS | Management of client and server in Node JS.                                                                                     | [expressjs](https://expressjs.com/en/4x/api.html) |
 | Socket.IO  | Room and users management for multiplayer. Basically what the multiplayer aspect of the game is based on.                       | [socket.io](https://socket.io/)                   |
+| Socket.IO  | Room and users management for multiplayer. Basically what the multiplayer aspect of the game is based on.                       | [socket.io](https://socket.io/)                   |
 
 <a name="memes"></a>
 ## Where are the memes?
@@ -49,8 +50,28 @@ All the images are hosted on an imgur account as albums.
 
 Current _Image Sets_:
 
-+ 🥇 [01](https://imgur.com/a/JOd3bxM) set
++ 🥇 [01](https://imgur.com/a/JOd3bxM) set (only playeable set at the moment)
 + 🍖 [Food](https://imgur.com/a/rWug7tX) set
+
+## What's Next?
+
+Known bugs, displayed in the following table:
+
+| Description                                                                                                                     | Date Reported                                     |
+|---------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------|
+| No reported bugs at the moment                                                                                                  | XX th of October 202X                             |
+
+<br>
+
+Updates planned besides the currently known bugs:
++ _Image Set_ selection
++ Custom _Image Sets_
+
+<br>
+
+> **_NOTE:_** Take into account that this is a hobby project, so updates and bugfixes may come on an irregular schedule
+
+<hr>
 
 ## Special Thanks
 
