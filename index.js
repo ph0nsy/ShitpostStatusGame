@@ -8,9 +8,9 @@ const { ImgurClient } = require('imgur');
 require('dotenv').config();
 
 const client = new ImgurClient({
-    clientId: process.env.CLIENT_ID,// || 'd117d6ff408f666',
-    clientSecret: process.env.CLIENT_SECRET,// || '1bec536045c9da839d47891b06e78817d24f17ff',
-    refreshToken: process.env.REFRESH_TOKEN,// || '218d0c255ae3a4ef379efd20aa377a8a43018e96',
+    clientId: process.env.CLIENT_ID,
+    clientSecret: process.env.CLIENT_SECRET,
+    refreshToken: process.env.REFRESH_TOKEN,
   });
     
 
@@ -64,7 +64,6 @@ server.listen(PORT,function(){
 });
 
 
-const db = require('./public/js/db.js')
 const gameRooms = {
     // Elementos que habrá dentro de la constante
     /*[roomKey]:{
@@ -72,65 +71,14 @@ const gameRooms = {
         numPlayers: 0,
         numRounds: 0,
         currentPlayer: 0,
+        currentRound: 0,
+        currentSelected: {},
     }*/
 };
 
 // Escuchamos a las conexiones y desconexiones
 io.on('connection', function (socket) {
     console.log(`A socket connection has been made: ${socket.id}`);
-    socket.on('checkUsername', async function(username, password){
-        console.log('check username');
-        let conn;
-        try{
-            conn = await db.pool.getConnection();
-            const rows = await conn.query('SELECT 1 as val FROM User WHERE nombre = "' + username + '";');
-            console.log(rows);
-            console.log(username);
-            if (rows[Object.keys(rows)[0]].val == 1) {
-                console.log('aq89oso');
-                if (conn) (conn).end; 
-                socket.emit('failUser');
-            } else {
-                console.log('hey');
-                conn.query('INSERT INTO User (nombre, contraseña) VALUES ("' + username + '", "' + password + '");');
-                const id = await conn.query('SELECT id as val FROM User WHERE nombre = "' + username + '";');
-                console.log(id[Object.keys(id)[0]]);
-                if (conn) (conn).end;
-                socket.emit('logUser', id[Object.keys(id)[0]].val);
-            }
-        } catch (err) {
-            console.log(err);
-            throw err;
-        } finally {
-            if (conn) (conn).end;
-        }
-    });
-
-    socket.on('checkLogIn', async function(username, password){
-        console.log('check username');
-        let conn;
-        try{
-            conn = await db.pool.getConnection();
-            const rows = await conn.query('SELECT 1 as val FROM User WHERE nombre = "' + username + '" AND contraseña = "' + password + '";');
-            console.log(rows);
-            console.log(username);
-            if (rows[Object.keys(rows)[0]].val != 1) {
-                console.log('aq89oso');
-                if (conn) (conn).end;
-            } else {
-                console.log('hey');
-                const id = await conn.query('SELECT id as val FROM User WHERE nombre = "' + username + '";');
-                console.log(id[Object.keys(id)[0]]);
-                if (conn) (conn).end;
-                socket.emit('logUser', id[Object.keys(id)[0]].val);
-            }
-        } catch (err) {
-            console.log(err);
-            throw err;
-        } finally {
-            if (conn) (conn).end;
-        }
-    });
 
     socket.on('disconnect', async() => {
         let roomkey = 0;
@@ -149,6 +97,7 @@ io.on('connection', function (socket) {
             delete roomInfo.players[socket.id];
             roomInfo.numPlayers = Object.keys(roomInfo.players).length;
             io.to(roomkey).emit('disconnected',{
+                roomKey: roomkey,
                 playerId: socket.id,
                 numPlayers: roomInfo.numPlayers,
             });
@@ -188,39 +137,41 @@ io.on('connection', function (socket) {
 
     socket.on('joinRoom', (roomKey) =>{
         const roomInfo = gameRooms[roomKey];
-        var allReady = 0;
-        Object.keys(roomInfo.players).forEach(function(id){
-            if(roomInfo.players[id].ready == 1){
-                allReady++; 
+        if(roomInfo){
+            var allReady = 0;
+            Object.keys(roomInfo.players).forEach(function(id){
+                if(roomInfo.players[id].ready == 1){
+                    allReady++; 
+                }
+            });
+            console.log(roomInfo.numPlayers);
+            if(!roomInfo || (roomInfo && roomInfo.numPlayers > 5) || (Object.keys(roomInfo.players).length > 0 && allReady >= Object.keys(roomInfo.players).length)) {
+                socket.emit('roomFull', true);
+            } else {
+                socket.emit('roomFull', false);
             }
-        });
-        console.log(roomInfo.numPlayers);
-        if(!roomInfo || (roomInfo && roomInfo.numPlayers > 5) || (Object.keys(roomInfo.players).length > 0 && allReady >= Object.keys(roomInfo.players).length)) {
-            socket.emit('roomFull', true);
-        } else {
-            socket.emit('roomFull', false);
         }
     });
-    
 
-    socket.on('isKeyValid', function(input){
+    socket.on('isKeyValid', function(input, name){
         const keyArray = Object.keys(gameRooms)
-        ? socket.emit('keyIsValid', input)
+        ? socket.emit('keyIsValid', input, name)
         : socket.emit('keyNotValid');
     });
 
-    socket.on('createRoom', async function(rounds){
+    socket.on('createRoom', async function(rounds, name){
         let key = generateCode();
         Object.keys(gameRooms).includes(key) ? (key = generateCode()) : key;
         gameRooms[key] = {
             roomKey: key,
             players: {},
             numPlayers: 0,
-            numRounds: rounds,
+            numRounds: parseInt(rounds, 10),
             currentPlayer: 0,
+            currentRound: 0,
             currentSelected: {},
         };
-        socket.emit('roomCreated', gameRooms[key]);
+        socket.emit('roomCreated', gameRooms[key], name);
     });
 
     socket.on('ready', function(roomKey, rId){
@@ -233,7 +184,7 @@ io.on('connection', function (socket) {
             }
         });
         if(readyGo >= Object.keys(roomInfo.players).length){
-            io.sockets.in(roomKey).emit('currentJudge', roomInfo, Object.keys(roomInfo.players)[0]);
+            io.sockets.in(roomKey).emit('currentJudge', roomInfo, Object.keys(roomInfo.players)[roomInfo.currentPlayer]);
         }
     });
 
@@ -241,21 +192,79 @@ io.on('connection', function (socket) {
         if(promptQ){
             io.sockets.in(key).emit('getPrompt', Object.keys(gameRooms[key].players)[gameRooms[key].currentPlayer], promptQ);
         } else {
-
-            //io.socket.in(key).emit('getPrompt', Object.keys(gameRooms[key].players)[gameRooms[key].currentPlayer], getPrefabPromt(Math.floor(Math.random() * 20 ) + 1));
+            fetch("https://random-word-api.herokuapp.com/word")
+                .then((response) => response.json())
+                .then((json) => io.sockets.in(key).emit('getPrompt', Object.keys(gameRooms[key].players)[gameRooms[key].currentPlayer], json[0].toUpperCase()));
         }
     });
 
-    socket.on('selected', function(){
-        //emit waitSelect
-
-        //emit waitVote
+    socket.on('selection', function(img, id, key){
+        gameRooms[key].currentSelected[id] = img;
+        if(Object.keys(gameRooms[key].currentSelected).length == gameRooms[key].numPlayers-1){
+            io.sockets.in(key).emit('allSelected', gameRooms[key]);
+        } else {
+            Object.keys(gameRooms[key].currentSelected).forEach(function(c_id){
+                if(c_id == id){
+                    socket.emit('updateSelected', gameRooms[key]);
+                } else {
+                    socket.to(gameRooms[key].players[c_id].playerId).emit('updateSelected', gameRooms[key]);
+                }
+            });
+            socket.to(Object.keys(gameRooms[key].players)[gameRooms[key].currentPlayer]).emit('updateSelected', gameRooms[key])
+        }
     });
 
-    socket.on('hasVoted', function(){
-        //emit nextJudge
+    socket.on('reveal', function(curr_id, key){
+        io.sockets.in(key).emit('revealed', gameRooms[key], curr_id);
+    });
 
-        //emit endGame
+    socket.on('clickMeme',function(img, txt, key){socket.to(key).emit('showMeme', img, txt);});
+    socket.on('clickOut',function(key){socket.to(key).emit('byeMeme');});
+
+    socket.on('hasVoted', function(key, id){
+        gameRooms[key].players[id].score++;
+        gameRooms[key].currentSelected = {};
+        Object.keys(gameRooms[key].players).forEach(function(res_id){
+            gameRooms[key].players[res_id].ready = 0;
+        });
+        gameRooms[key].currentPlayer += 1;
+        console.log('Jugadores restantes esta Ronda: ' + (gameRooms[key].numPlayers - gameRooms[key].currentPlayer));
+        console.log('Rondas restantes: ' + (gameRooms[key].numRounds - gameRooms[key].currentRound));
+        if(gameRooms[key].currentPlayer < gameRooms[key].numPlayers){
+            console.log(gameRooms[key].currentPlayer);
+            io.sockets.in(key).emit('nextTurn', gameRooms[key]);
+        } else {
+            gameRooms[key].currentPlayer = 0;
+            gameRooms[key].currentRound += 1;
+            if(gameRooms[key].currentRound < gameRooms[key].numRounds){
+                console.log(gameRooms[key].currentRound);
+                io.sockets.in(key).emit('nextTurn', gameRooms[key]);
+            } else {
+                gameRooms[key].currentRound = 0;
+                var max_idx = 0;
+                let max_temp;
+                const endRoomInfo = Object.assign({},gameRooms[key]);
+                Object.keys(gameRooms[key].players).forEach(function(end_id){
+                    if(max_idx == 0){
+                        max_temp = gameRooms[key].players[end_id].score;
+                        max_idx = end_id;
+                    } else if (max_temp < gameRooms[key].players[end_id].score) {
+                        max_temp = gameRooms[key].players[end_id].score;
+                        max_idx = end_id;
+                    }
+                    gameRooms[key].players[end_id].score = 0;
+                });
+                console.log('Winner: ' + gameRooms[key].players[max_idx].username)
+                io.sockets.in(key).emit('endGame', endRoomInfo, gameRooms[key].players[max_idx].username);
+            }
+        }
+    });
+
+    socket.on('playAgain', function(key){
+        gameRooms[key].currentPlayer = 0;
+        gameRooms[key].currentRound = 0;
+        gameRooms[key].currentSelected = {};
+        socket.emit('readyAgain');
     });
 
     socket.on('getImages', function(){

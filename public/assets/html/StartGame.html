@@ -1,42 +1,41 @@
 <style>
-  .transparent {
+  .transparent_game {
     background-color: rgba(0, 0, 0, 0.7);
-    padding-left: 50px;
-    padding-right: 50px;
-    padding-top: 20px;
-    padding-bottom: 20px;
+    display: flex;
+    /*padding: 100px;*/
+    width: 1000px;
+    height: 500px;
     border-radius: 25px;
+    justify-content: center;
+    align-items: center;
     color: white;
   }
+  /*RAZRRN*/
   .buttonStart {
     visibility: visible;
-    background-color: olivedrab;
+    background-color: darkgreen;
     color:whitesmoke;
-    border: 2px solid whitesmoke;  
-    padding: 8px 32px;
+    border: 2px solid whitesmoke;
+    width: 500px;
+    height: 250px;
+    border-radius: 25px;
     text-align: center;
     text-decoration: none;
-    font-size: 16px;
-    transition-duration: 0.4s;
+    /*transition-duration: 0.4s;*/
     cursor: pointer;
-    margin-top: 12px;
-    margin-bottom: 12px;  
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
+    margin: auto;
   }
 
   .buttonStart:hover {
-    background-color: darkgreen;
-    color: whitesmoke;
+    background-color: olivedrab;
   }
 
   .buttonStart:active{
     background-color: olive;
   }
 </style>
-<div class="transparent">
+<div class="transparent_game">
   <br><br>
-  <input type="submit" value="  START  " class="buttonStart" name="start">
+  <input type="submit" value="  READY  " class="buttonStart" style="font-size: 100px; font-family: Copperplate, Papyrus, fantasy;" name="start">
   <br><br>
 </div>

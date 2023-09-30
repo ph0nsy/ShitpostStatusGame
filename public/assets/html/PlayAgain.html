@@ -1,13 +1,15 @@
 <style>
-    .transparent {
+    .transparent_game {
       background-color: rgba(0, 0, 0, 0.7);
-      padding-left: 50px;
-      padding-right: 50px;
-      padding-top: 20px;
-      padding-bottom: 20px;
+      /*padding: 100px;*/
+      width: 1000px;
+      height: 500px;
       border-radius: 25px;
+      justify-content: center;
+      align-items: center;
       color: white;
     }
+
     .buttonStart {
       visibility: visible;
       background-color: olivedrab;
@@ -34,39 +36,12 @@
     .buttonStart:active{
       background-color: olive;
     }
-  
-    .buttonCancel{
-      visibility: hidden;
-      background-color: orangered;
-      color:whitesmoke;
-      border: 2px solid whitesmoke;  
-      padding: 8px 32px;
-      text-align: center;
-      text-decoration: none;
-      font-size: 16px;
-      transition-duration: 0.4s;
-      cursor: pointer;
-      margin-top: 12px;
-      margin-bottom: 12px;  
-      margin-left: auto;
-      margin-right: auto;
-      display: block;
-    }
-  
-    .buttonCancel:hover {
-      background-color: darkred;
-      color: whitesmoke;
-    }
-  
-    .buttonCancel:active{
-      background-color: orange;
-    }
+
   </style>
-  <div class="transparent">
+  <div class="transparent_game">
     <br>
     <h1 style="text-align: center;">Play Again?</h1>
     <br>
-    <input type="submit" value="  START  " class="buttonStart">
-    <input type="submit" value="CANCEL" class="buttonCancel">
+    <input type="submit" value="  READY  " class="buttonStart"  name = "playAgain" >
     <br>
   </div>

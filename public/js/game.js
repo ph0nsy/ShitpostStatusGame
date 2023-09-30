@@ -1,5 +1,5 @@
 import config from './config.js';
-import LogInRegister from './Scenes/LogInRegister.js';
+import Lobby from './Scenes/Lobby.js';
 import Gameplay from "./Scenes/Gameplay.js";
 
 /**
@@ -10,10 +10,10 @@ class Game extends Phaser.Game {
     // Añadir la configuración
     super(config);
     // Añadir todas las escenas
-    this.scene.add('LogInRegister', LogInRegister);
+    this.scene.add('Lobby', Lobby);
     this.scene.add('Gameplay', Gameplay);
     // Escena inicial del juego
-    this.scene.start('LogInRegister');
+    this.scene.start('Lobby');
   }
 }
 // Create new instance of game

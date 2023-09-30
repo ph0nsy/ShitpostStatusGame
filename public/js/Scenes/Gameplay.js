@@ -10,26 +10,29 @@ export default class Gameplay extends Phaser.Scene{
     var socket = data.socket;
   }
   // Cargar assets y otros elementos para usarlos más adelante
-  preload() {
+  preload(data) {
     const imageSet = albums.get('Shitpost Status 01');
+    
     for (let pic_idx = 0; pic_idx < imageSet.length; pic_idx++) {
       
       this.load.image('pic_no' + pic_idx.toString(), imageSet[pic_idx]);
-      console.log('pic_no' + pic_idx.toString());
       
     }
-    this.load.html('SG',  './assets/html/StartGame.html');
-    this.load.html('WO',  './assets/html/WaitOthers.html');
-    this.load.html('GP', './assets/html/GeneratePrompt.html');
-    this.load.html('PA', './assets/html/PlayAgain.html');
-    this.load.image('bg', './assets/images/Background.jpg');
+    this.load.html('SG',  'https://shitpost-status.onrender.com/assets/html/StartGame.html');
+    this.load.html('WO',  'https://shitpost-status.onrender.com/assets/html/WaitOthers.html');
+    this.load.html('GP', 'https://shitpost-status.onrender.com/assets/html/GeneratePrompt.html');
+    this.load.html('PA', 'https://shitpost-status.onrender.com/assets/html/PlayAgain.html');
+    this.load.image('bg', 'https://shitpost-status.onrender.com/assets/images/Background.jpg');
+    this.load.image('vote', 'https://shitpost-status.onrender.com/assets/images/Vote.png');
+    this.load.image('hidden', 'https://shitpost-status.onrender.com/assets/images/HiddenCard.png');
+
+    this.load.atlas('flares', 'https://raw.githubusercontent.com/photonstorm/phaser3-examples/master/public/assets/particles/flares.png', 'https://raw.githubusercontent.com/photonstorm/phaser3-examples/master/public/assets/particles/flares.json');
   }
   // Código que se ejecuta al iniciar el juego por primera vez
   create(data){
-    console.log(data);
     const gamescene = this;
     var key = data.key;
-    var name = data.id;
+    var name = data.name || data.id.substring(0, 9).toUpperCase();
     let bg  = this.add.image(0, 0, 'bg');
       // Tomamos el tamañod de la pantalla
       bg.displayHeight = this.sys.game.config.height;
@@ -47,18 +50,17 @@ export default class Gameplay extends Phaser.Scene{
       }
       bg.setAlpha(0.75);
     this.allPlayers = this.add.group();
-    var readyForm = this.add.dom(this.game.canvas.width*0.6, this.game.canvas.height*0.35).createFromCache('SG').setActive(true).setVisible(true);
+    var readyForm = this.add.dom(this.game.canvas.width*0.5, this.game.canvas.height*0.5).createFromCache('SG').setVisible(true).setOrigin(0.5,0.5);
     readyForm.addListener('click');
     readyForm.on('click', function(event){
       if(event.target.name === 'start'){
         readyForm.setVisible(false);
         waitPlayers.setVisible(true);
-        console.log(gamescene.allPlayers.getChildren().length);
         socket.emit('ready', key, socket.id);
       }
     });
-    var waitPlayers = this.add.dom(this.game.canvas.width*0.6, this.game.canvas.height*0.35).createFromCache('WO').setActive(false).setVisible(false);
-    var getPrompt = this.add.dom(this.game.canvas.width*0.6, this.game.canvas.height*0.35).createFromCache('GP').setActive(false).setVisible(false);  
+    var waitPlayers = this.add.dom(this.game.canvas.width*0.5, this.game.canvas.height*0.5).createFromCache('WO').setVisible(false).setOrigin(0.5,0.5);
+    var getPrompt = this.add.dom(this.game.canvas.width*0.5, this.game.canvas.height*0.5).createFromCache('GP').setVisible(false).setOrigin(0.5,0.5);  
     getPrompt.addListener('click');
     getPrompt.on('click', function(event){
       if(event.target.name === 'sumbmitPrompt'){
@@ -66,10 +68,8 @@ export default class Gameplay extends Phaser.Scene{
       }
     });
 
-    var promptPresent = this.add.text(this.game.canvas.width*0.5, this.game.canvas.height*0.4, 'Select an image to go with this:', { color: 'whitesmoke', align: 'center', fontSize: '30px', wordWrap: { width: this.game.canvas.width*0.5, useAdvancedWrap: true}}).setOrigin(0.5,0.5).setVisible(false);
-    var prompt = this.add.text(this.game.canvas.width*0.5, this.game.canvas.height*0.5, '', { color: 'whitesmoke', align: 'center', fontFamily: 'Impact', fontSize: '40px', wordWrap: { width: this.game.canvas.width*0.45, useAdvancedWrap: true}}).setOrigin(0.5,0.5).setVisible(false);
-
-    var playAgain = this.add.dom(this.game.canvas.width*0.6, this.game.canvas.height*0.35).createFromCache('PA').setActive(false).setVisible(false);
+    var promptPresent = this.add.text(this.game.canvas.width*0.5, this.game.canvas.height*0.325, 'Select an image to go with:', { color: 'whitesmoke', align: 'center', fontSize: '30px', wordWrap: { width: this.game.canvas.width*0.5, useAdvancedWrap: true}}).setOrigin(0.5,0.5).setVisible(false);
+    var prompt = this.add.text(this.game.canvas.width*0.5, this.game.canvas.height*0.4, '', { color: 'whitesmoke', align: 'center', fontFamily: 'Impact', fontSize: '40px', wordWrap: { width: this.game.canvas.width*0.45, useAdvancedWrap: true}}).setOrigin(0.5,0.5).setVisible(false);
 
     socket.emit('isOnRoom', key, name);
     
@@ -99,19 +99,16 @@ export default class Gameplay extends Phaser.Scene{
     });
 
     socket.on('disconnected', function(arg){
-      const {playerId, numPlayers} = arg;
+      const {roomKey, playerId, numPlayers} = arg;
       gamescene.state.numPlayers = numPlayers;
       gamescene.allPlayers.getChildren().forEach(function (otherPlayer) {
         if(playerId === otherPlayer.playerId){
-          otherPlayer.destroy();
-          gamescene.scene.restart();
+          location.reload();
         }
       });
     });
 
     socket.on('currentJudge', function(roominfo, judgeId){
-      console.log('judgegggg');
-      console.log(roominfo);
       readyForm.setVisible(false);
       waitPlayers.setVisible(false);
       if(socket.id == judgeId){
@@ -121,9 +118,10 @@ export default class Gameplay extends Phaser.Scene{
       }
     });
 
+    var ops = [];
     socket.on('getPrompt', function(judgeId, promptVal){  
-      console.log(promptVal);
-      prompt.setText(promptVal.toUpperCase());
+      console.log('Current prompt: ' + promptVal);
+      prompt.setText(promptVal);
 
       prompt.setStroke('black', 2);
       prompt.setShadow(4, 4, '#333333', 4, true, true);
@@ -136,11 +134,11 @@ export default class Gameplay extends Phaser.Scene{
         waitPlayers.setVisible(false);
         promptPresent.setVisible(true);
         prompt.setVisible(true);
-       
-        var ops = [];
+        
         for (let currDealed = 0; currDealed < 5; currDealed++) {
           let curr_img = 'pic_no' + Math.floor(Math.random() * albums.get('Shitpost Status 01').length).toString();
-          ops[currDealed] = gamescene.add.image(gamescene.game.canvas.width*0.165*(currDealed+1), gamescene.game.canvas.height*0.6, curr_img).setOrigin(0.5,0).setInteractive({cursor:'pointer'}).setScale(0.57);
+          if(ops[currDealed]) ops[currDealed].destroy();
+          ops[currDealed] = gamescene.add.image(gamescene.game.canvas.width*0.165*(currDealed+1), gamescene.game.canvas.height*0.475, curr_img).setOrigin(0.5,0).setInteractive({cursor:'pointer'}).setScale(0.57);
           ops[currDealed].on('pointerover', function () {
             this.setTint(0xfff000);
           });
@@ -148,45 +146,220 @@ export default class Gameplay extends Phaser.Scene{
             this.clearTint();
           });
           ops[currDealed].on('pointerup', function(){
-            //socket.emit('selectiion', curr_img, socket.id)
+            socket.emit('selection', curr_img, socket.id, key)
           }); 
         }
       }
     });
 
-    socket.on('waitSelects', function(){
+    var selected = [];
+    socket.on('updateSelected', function(roomInfo){
+      Object.keys(roomInfo.currentSelected).forEach(function(curr_id){
+        if(selected[curr_id]) { 
+          selected[curr_id].destroy();
+          delete selected[curr_id];
+        };
+        selected[curr_id] = gamescene.add.image(gamescene.game.canvas.width*(0.20*Object.keys(roomInfo.players).findIndex(x => x === curr_id)+0.1), gamescene.game.canvas.height*0.375, 'hidden').setScale(0.35); 
+      });
+
+      for (let currDealed = 0; currDealed < 5; currDealed++) {
+        if(ops[currDealed]) ops[currDealed].destroy();
+      }
+      ops = [];
+      prompt.setVisible(false);
+      promptPresent.setVisible(false);
+      
+    });
+
+    socket.on('allSelected', function(roomInfo){
+      Object.keys(roomInfo.currentSelected).forEach(function(curr_id){
+        if(selected[curr_id]) { 
+          selected[curr_id].destroy();
+          delete selected[curr_id];
+        };
+        selected[curr_id] = gamescene.add.image(gamescene.game.canvas.width*(0.20*Object.keys(roomInfo.players).findIndex(x => x === curr_id)+0.1), gamescene.game.canvas.height*0.375, 'hidden').setScale(0.35);
+        if(Object.keys(roomInfo.players)[roomInfo.currentPlayer] == socket.id){
+          selected[curr_id].setInteractive({cursor:'pointer'});
+          selected[curr_id].on('pointerover', function () {
+            this.setTint(0x6B9BCC);
+          });
+          selected[curr_id].on('pointerout', function () {
+            this.clearTint();
+          });
+          selected[curr_id].on('pointerup', function(){
+            socket.emit('reveal', curr_id, key);
+          }); 
+        }
+      });
+
+      for (let currDealed = 0; currDealed < 5; currDealed++) {
+        if(ops[currDealed]) ops[currDealed].destroy();
+      }
+      ops = [];
+      prompt.setVisible(false);
+      promptPresent.setVisible(false);
       waitPlayers.setVisible(false);
-      waitPlayers.setVisible(true);
+      
     });
 
-    socket.on('waitVotes', function(judgeId, selected){
-      if(socket.id === judgeId){
-        // Vote >>  emit hasVoted
-        waitPlayers.setVisible(false);
-      } else {
-        waitPlayers.setVisible(false);
-        // Show votes (disableInteractive())
+    var meme_out_bg = this.add.rectangle(gamescene.game.canvas.width*0.5, gamescene.game.canvas.height*0.5, 1070, 940, 0x000).setOrigin(0.5,0.5).setInteractive({cursor:'pointer'}).setVisible(false).on('pointerup', function(){
+      meme_out_bg.setVisible(false);
+      meme_image.setVisible(false);
+      meme_txt.setVisible(false);
+      vote_btn.setVisible(false);
+      socket.emit("clickOut", key);
+    });
+    var meme_image = this.add.image(gamescene.game.canvas.width*0.5, gamescene.game.canvas.height*0.5, 'pic_no0').setOrigin(0.5,0.5).setVisible(false).setScale(2);
+
+    var meme_txt = this.add.text(this.game.canvas.width*0.5, this.game.canvas.height*0.725, '', { color: 'whitesmoke', align: 'center', fontFamily: 'Impact', fontSize: '50px', wordWrap: { width: this.game.canvas.width*0.45, useAdvancedWrap: true}}).setOrigin(0.5,0.5).setVisible(false);
+    meme_txt.setStroke('black', 4);
+    
+    var vote_btn = this.add.image(gamescene.game.canvas.width*0.5, gamescene.game.canvas.height*0.9, 'vote').setOrigin(0.5,0.5).setInteractive({cursor:'pointer'}).setVisible(false).setScale(0.5);
+    vote_btn.id = '';
+    vote_btn.on('pointerover', function () {
+      vote_btn.setTint(0x663399);
+    });
+    vote_btn.on('pointerout', function () {
+      vote_btn.clearTint();
+    });
+    vote_btn.on('pointerup', function(){
+      meme_out_bg.setVisible(false);
+      meme_image.setVisible(false);
+      meme_txt.setVisible(false);
+      vote_btn.setVisible(false);
+      socket.emit("hasVoted", key, vote_btn.id);
+    }); 
+
+    var shown = [];
+    socket.on('revealed', function(roomInfo, curr_id){
+      shown[curr_id] = gamescene.add.image(gamescene.game.canvas.width*(0.20*Object.keys(roomInfo.players).findIndex(x => x === curr_id)+0.1), gamescene.game.canvas.height*0.375, roomInfo.currentSelected[curr_id]).setInteractive({cursor:'pointer'}).setScale(0.585);/*.setOrigin(0.5,0.5)*/
+      if(Object.keys(roomInfo.players)[roomInfo.currentPlayer] == socket.id){
+        shown[curr_id].on('pointerover', function () {
+          this.setTint(0x6B9BCC);
+        });
+        shown[curr_id].on('pointerout', function () {
+          this.clearTint();
+        });
+        shown[curr_id].on('pointerup', function(){
+          meme_out_bg.setVisible(true);
+          meme_out_bg.alpha = 0.8;
+          gamescene.children.bringToTop(meme_out_bg);
+          meme_image.setTexture(roomInfo.currentSelected[curr_id]);
+          meme_image.setVisible(true);
+          gamescene.children.bringToTop(meme_image);
+          meme_txt.setText(prompt.text.valueOf());
+          meme_txt.setVisible(true);
+          gamescene.children.bringToTop(meme_txt);
+          vote_btn.setVisible(true);
+          gamescene.children.bringToTop(vote_btn);
+          vote_btn.id = curr_id;
+          socket.emit('clickMeme', roomInfo.currentSelected[curr_id], prompt.text.valueOf(), key);
+        }); 
+      }
+      selected[curr_id].setVisible(false);
+      selected[curr_id].destroy();
+      delete selected[curr_id];
+    });
+
+    socket.on('showMeme', function(image,text){
+      meme_out_bg.setVisible(true);
+      gamescene.children.bringToTop(meme_out_bg);
+      meme_out_bg.alpha = 0.8;
+      meme_image.setTexture(image);
+      meme_image.setVisible(true);
+      gamescene.children.bringToTop(meme_image);
+      meme_txt.setText(text);
+      meme_txt.setVisible(true);
+      gamescene.children.bringToTop(meme_txt);
+    });
+
+    socket.on('byeMeme', function(){
+      meme_out_bg.setVisible(false);
+      meme_image.setVisible(false);
+      meme_txt.setVisible(false);
+    });
+
+    socket.on('nextTurn', function(roomInfo){
+      meme_out_bg.setVisible(false);
+      meme_image.setVisible(false);
+      meme_txt.setVisible(false);
+      vote_btn.setVisible(false);
+
+      Object.keys(selected).forEach(function(idx){
+        selected[idx].setVisible(false);
+        selected[idx].destroy();
+        delete selected[idx];
+      });
+      Object.keys(shown).forEach(function(idx){
+        shown[idx].setVisible(false);
+        shown[idx].destroy();
+        delete shown[idx];
+      });
+      shown = [];
+      selected = [];
+
+      let update_idx_text = 0;
+      Object.keys(roomInfo.players).forEach(function(update_id){
+        gamescene.allPlayers.getChildren()[update_idx_text].setText(roomInfo.players[update_id].username + '\u000a' + roomInfo.players[update_id].score);
+        update_idx_text += 1;
+      });
+
+      socket.emit('ready', key, socket.id);
+    });
+
+    const winner = this.add.text(this.game.canvas.width*0.5, this.game.canvas.height*0.3, '', { color: 'whitesmoke', align: 'center', fontFamily: 'Impact', fontSize: '50px', wordWrap: { width: this.game.canvas.width*0.45, useAdvancedWrap: true}}).setOrigin(0.5,0.5).setVisible(false).setStroke('black', 4);
+    
+    const emitter = this.add.particles(gamescene.game.canvas.width*0.5, gamescene.game.canvas.height*0.3, 'flares', {
+      frame: [ 'red', 'yellow', 'green' ],
+      lifespan: 800,
+      speed: { min: 150, max: 250 },
+      scale: { start: 0.1, end: 0 },
+      gravityY: 50,
+      blendMode: 'ADD',
+      emitting: true,
+    }).setVisible(false);
+
+    const playAgain = this.add.dom(this.game.canvas.width*0.5, this.game.canvas.height*0.6).createFromCache('PA').setVisible(false).setOrigin(0.5,0.5).addListener('click').on('click', function(event){
+      if(event.target.name === 'playAgain'){
+        waitPlayers.setVisible(true);
+        emitter.setVisible(false);
+        winner.setVisible(false);
+        playAgain.setVisible(false);
+        socket.emit('ready', key, socket.id);
       }
     });
 
-    socket.on('preview', function(roomSelected){
-      if(roomSelected[socket.id] == ''){
-        console.log(stillSelecting);
-      } else {
-        // Display preview (to see who is left)
-      }
+    socket.on('endGame', function(roomInfo, winner_name){
+      meme_out_bg.setVisible(false);
+      meme_image.setVisible(false);
+      meme_txt.setVisible(false);
+      vote_btn.setVisible(false);
+
+      Object.keys(selected).forEach(function(idx){
+        selected[idx].setVisible(false);
+        selected[idx].destroy();
+        delete selected[idx];
+      });
+      Object.keys(shown).forEach(function(idx){
+        shown[idx].setVisible(false);
+        shown[idx].destroy();
+        delete shown[idx];
+      });
+      shown = [];
+      selected = [];
+
+      let update_idx_text = 0;
+      Object.keys(roomInfo.players).forEach(function(update_id){
+        gamescene.allPlayers.getChildren()[update_idx_text].setText(roomInfo.players[update_id].username + '\u000a' + roomInfo.players[update_id].score);
+        update_idx_text += 1;
+      });
+      
+      winner.setText('WINNER:\u000a' + winner_name);
+      winner.setVisible(true);
+      emitter.setVisible(true);
+      playAgain.setVisible(true);  
     });
 
-
-
-    socket.on('nextJudge', function(){
-
-    });
-
-    socket.on('endGame', function(){
-      // setVisible(false) all
-      playAgain.setVisible(true);
-    });
 
     // -------------------------- Footer -----------------------------
     var textCode = this.add.text(this.game.canvas.width*0.5, this.game.canvas.height*0.82, 'Room Key:', { color: 'whitesmoke', align: 'center', fontFamily: 'Arial', fontSize: '32px'}).setOrigin(0.5,0);
@@ -205,7 +378,7 @@ export default class Gameplay extends Phaser.Scene{
     });
     
     if(!exists){
-      const player = this.add.text(this.game.canvas.width*0.05, this.game.canvas.height*(0.10*(this.allPlayers.getLength()+1)), playerInfo.username + '  \u000a  ' + playerInfo.score, { font: "24px Arial Black", fill: "grey", align: "center" }).setOrigin(0,0.5);
+      const player = this.add.text(this.game.canvas.width*(0.20*this.allPlayers.getLength()+0.1), this.game.canvas.height*(0.15), playerInfo.username + '\u000a' + playerInfo.score, { font: "24px Arial Black", fill: "black", align: "center" }).setOrigin(0.5,0.5);
       player.setStroke('white', 4); // border
       player.setShadow(2, 2, '#333333', 6, true, false); // shadow
       player.playerId = playerInfo.playerId;
@@ -221,7 +394,7 @@ export default class Gameplay extends Phaser.Scene{
       }
     });
     if(!exists){
-      const otherP = this.add.text(this.game.canvas.width*0.05, this.game.canvas.height*(0.10*(this.allPlayers.getLength()+1)), playerInfo.username + ' \u000a ' + playerInfo.score,  { font: "24px Arial Black", fill: "#fff", align: "center" }).setOrigin(0,0.5);
+      const otherP = this.add.text(this.game.canvas.width*(0.20*this.allPlayers.getLength()+0.1), this.game.canvas.height*(0.15), playerInfo.username + '\u000a' + playerInfo.score,  { font: "24px Arial Black", fill: "#fff", align: "center" }).setOrigin(0.5,0.5);
       otherP.setShadow(4, 4, '#333333', 4, true, true); // shadow
       otherP.playerId = playerInfo.playerId;
       this.allPlayers.add(otherP);

@@ -1,8 +1,8 @@
 // Clase para la escena que permite a los jugadores registrarse o iniciar sesión
-export default class LogInRegister extends Phaser.Scene{
+export default class Lobby extends Phaser.Scene{
     // 
     constructor() {
-        super('LogInRegister');
+        super('Lobby');
     }
     // Cargar assets y otros elementos para usarlos más adelante
     preload() {
@@ -10,8 +10,8 @@ export default class LogInRegister extends Phaser.Scene{
       this.load.image('rand1', imageSet[Math.floor(Math.random() * imageSet.length)]);
       this.load.image('rand2', imageSet[Math.floor(Math.random() * imageSet.length)]);
       this.load.image('bg', 'https://shitpost-status.onrender.com/assets/images/Background.jpg');
-      this.load.html('Join', './assets/html/CodigoPartida.html');
-      this.load.html('Create', './assets/html/NumeroRounds.html');
+      this.load.html('Join', 'https://shitpost-status.onrender.com/assets/html/CodigoPartida.html');
+      this.load.html('Create', 'https://shitpost-status.onrender.com/assets/html/NumeroRounds.html');
       this.load.html('Error', 'https://shitpost-status.onrender.com/assets/html/ErrorCode.html');
       this.load.html('Full', 'https://shitpost-status.onrender.com/assets/html/FullRoom.html');
       
@@ -19,7 +19,6 @@ export default class LogInRegister extends Phaser.Scene{
     // Código que se ejecuta al iniciar el juego por primera vez
     create() {
       const gamescene = this;
-      console.log(`A socket connection has been made: ${socket.id}`);
       // -------------------------- IMG de FONDO -----------------------------
       // Cargar la imagen fondo en el punto (0,0) del canvas y
       // hacer que la imagen fondo ocupe toda la pantalla
@@ -61,8 +60,9 @@ export default class LogInRegister extends Phaser.Scene{
     join_G.on('click', function(event){
       if(event.target.name === 'Unirse'){
         const codigo = this.getChildByName('codigopartida');
+        const name = this.getChildByName('username');
         if(codigo.value.length == 6){
-          socket.emit('isKeyValid', codigo.value.toUpperCase());
+          socket.emit('isKeyValid', codigo.value.toUpperCase(), name.value.toUpperCase());
         }
       }
     });
@@ -72,7 +72,7 @@ export default class LogInRegister extends Phaser.Scene{
       error_cod = error_cod.setActive(true).setVisible(true);
     });
 
-    socket.on('keyIsValid', function(code){
+    socket.on('keyIsValid', function(code, name){
         
       socket.emit('joinRoom', code);
 
@@ -81,8 +81,8 @@ export default class LogInRegister extends Phaser.Scene{
           error_cod = error_cod.setActive(false).setVisible(false);
           error_cod = error_cod.setActive(true).setVisible(true);
         } else {
-          console.log(code);
-          gamescene.scene.start('Gameplay', {id: socket.id, socket: socket, key: code});
+          console.log('ROOM KEY (so you can copy it!):\u000a' + code);
+          gamescene.scene.start('Gameplay', {id: socket.id, socket: socket, key: code, name:name});
         }
       });
     });
@@ -93,17 +93,18 @@ export default class LogInRegister extends Phaser.Scene{
     create_G.on('click', function(event){
       if(event.target.name === 'Iniciar'){
         var noRondas = this.getChildByName('rondas');
+        const name = this.getChildByName('username');
         if(noRondas.value>3){
           noRondas.value = 3;
         }
         else if (noRondas.value<1){
           noRondas.value = 1;
         }
-        socket.emit('createRoom', noRondas.value);
+        socket.emit('createRoom', noRondas.value, name.value.toUpperCase());
       }
     });
 
-    socket.on('roomCreated', function(gameRoomInfo){
+    socket.on('roomCreated', function(gameRoomInfo, name){
         
       socket.emit('joinRoom', gameRoomInfo.roomKey);
 
@@ -112,8 +113,8 @@ export default class LogInRegister extends Phaser.Scene{
           error_cod = error_cod.setActive(false).setVisible(false);
           error_cod = error_cod.setActive(true).setVisible(true);
         } else {
-          console.log(gameRoomInfo.roomKey);
-          gamescene.scene.start('Gameplay', {id: socket.id, socket: socket, key: gameRoomInfo.roomKey});
+          console.log('ROOM KEY (so you can copy it!):\u000a' + gameRoomInfo.roomKey);
+          gamescene.scene.start('Gameplay', {id: socket.id, socket: socket, key: gameRoomInfo.roomKey, name: name});
         }
       });
       
