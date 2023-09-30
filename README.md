@@ -12,7 +12,7 @@
 2. [ Where to play? ](#where)
 3. [ What does the game use? ](#how)
 4. [ Where are the memes? ](#memes)
-5. [ What's Next? ](#how)
+5. [ What's Next? ](#next)
 
 <hr>
 
@@ -54,6 +54,7 @@ Current _Image Sets_:
 + 🥇 [01](https://imgur.com/a/JOd3bxM) set (only playeable set at the moment)
 + 🍖 [Food](https://imgur.com/a/rWug7tX) set
 
+<a name="next"></a>
 ## What's Next?
 
 Known bugs, displayed in the following table:
