@@ -1,57 +1,47 @@
-<style>
-    .transparent {
-      background-color: rgba(0, 0, 0, 0.7);
-      padding-left: 50px;
-      padding-right: 50px;
-      padding-top: 20px;
-      padding-bottom: 20px;
-      border-radius: 25px;
-      color: white;
-    }
-
-    input[type=text] {
-      padding: 1px 5px;
-      margin: 2px 0;
-      box-sizing: border-box;
-      border-radius: 20px;
-      cursor: text;        
-      display: inline;
-      width: 100%;
-      font-size: 24px;
-      background-color: lightgrey;
-    }
-
-    .buttonStart {
-      background-color: darkgreen;
-      color:whitesmoke;
-      border: 2px solid whitesmoke;  
-      padding: 8px 32px;
-      text-align: center;
-      text-decoration: none;
-      font-size: 16px;
-      transition-duration: 0.4s;
-      cursor: pointer;
-      margin-top: 12px;
-      margin-bottom: 12px;  
-      margin-left: auto;
-      margin-right: auto;
-      display: block;
-    }
+<div><style>
+  .transparent_this {
+    background-color: rgba(0, 0, 0, 0.7);
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-radius: 25px;
+    color: white;
+  }
   
-    .buttonStart:hover {
-      background-color: olive;
-      color: whitesmoke;
-    }
-  
-    .buttonStart:active{
-      background-color: olivedrab;
-    }
+  .transparent_this input[type=submit] {
+  background-color: white;
+  color: black;
+  border: 2px solid black;  
+  border-radius: 15px;
+  padding: 8px 32px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  margin-top: 12px;
+  margin-bottom: 12px;  
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
 
-  </style>
-  <div class="transparent">
-    <br>
-    <h1 style="text-align: center; font-family: Copperplate, Papyrus, fantasy;">Click To Play Again</h1>
-    <br>
-    <input type="submit" value="  READY  " class="buttonStart"  name = "playAgain" >
-    <br>
-  </div>
+.transparent_this input[type=submit]:hover {
+  background-color: black;
+  color: white;
+}
+
+.transparent_this input[type=submit]:active{
+  background-color: lightslategray;
+}
+
+
+</style>
+<div class="transparent_this">
+  <br>
+  <h1 style="text-align: center; font-family: Copperplate, Papyrus, fantasy;">Click To Play Again</h1>
+  <br>
+  <input type="submit" value="  READY  " class="buttonStart" name="playAgain">
+  <br>
+</div></div>
