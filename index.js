@@ -193,13 +193,8 @@ io.on('connection', function (socket) {
         } else {
             /*var word = 'werd';
             io.sockets.in(key).emit('getPrompt', Object.keys(gameRooms[key].players)[gameRooms[key].currentPlayer], word.toUpperCase());*/
-            fetch("https://random-word-api.herokuapp.com/word", {
-                method: 'GET',
-                headers: new Headers({
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': '*',
-                }),
-            }).then((response) => response.json())
+            fetch("https://random-word-api.herokuapp.com/word")
+                .then((response) => response.json())
                 .then((json) => io.sockets.in(key).emit('getPrompt', Object.keys(gameRooms[key].players)[gameRooms[key].currentPlayer], json[0].toUpperCase()));
         }
     });
