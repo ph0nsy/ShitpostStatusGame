@@ -68,6 +68,7 @@ Known bugs, displayed in the following table:
 Updates planned besides the currently known bugs:
 + _Image Set_ selection
 + Custom _Image Sets_
++ Beutify code and add comments
 
 <br>
 
