@@ -31,11 +31,10 @@ const getAlbumsIds = async(imageSets) => {
 // Express
 var express = require('express');
 const PORT = process.env.PORT || 8081;
-//var mysql = require('mysql');
 var app = express();
-//app = module.exports.app = express();
 // http
 var server = require('http').createServer(app);
+const fetch = require('node-fetch');
 // Socket.io
 var io = require('socket.io')(server, {
     cors: {
