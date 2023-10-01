@@ -307,7 +307,7 @@ export default class Gameplay extends Phaser.Scene{
       socket.emit('ready', key, socket.id);
     });
 
-    const winner = this.add.text(this.game.canvas.width*0.5, this.game.canvas.height*0.3, '', { color: 'whitesmoke', align: 'center', fontFamily: 'Impact', fontSize: '50px', wordWrap: { width: this.game.canvas.width*0.45, useAdvancedWrap: true}}).setOrigin(0.5,0.5).setVisible(false).setStroke('black', 4);
+    const winner = this.add.text(this.game.canvas.width*0.5, this.game.canvas.height*0.4, '', { color: 'whitesmoke', align: 'center', fontFamily: 'Impact', fontSize: '50px', wordWrap: { width: this.game.canvas.width*0.45, useAdvancedWrap: true}}).setOrigin(0.5,0.5).setVisible(false).setStroke('black', 4);
 
     const playAgain = this.add.dom(this.game.canvas.width*0.5, this.game.canvas.height*0.6).createFromCache('PA').setVisible(false).setOrigin(0.5,0.5).addListener('click').on('click', function(event){
       if(event.target.name === 'playAgain'){
