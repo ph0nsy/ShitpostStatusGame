@@ -36,13 +36,13 @@ The game is not published yet; however, you will be able to play it in:
 <a name="how"></a>
 ## What does the game use?
 
-| Technology | Usage                                                                                                                           | Documentation                                     |
-|------------|---------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------|
-| imgur.com  | Image sets are hosted as imgur albums and then brought into the game to reduce the space needed for both the server and client. | [imgur API](https://apidocs.imgur.com/)           |
-| Phaser 3   | Game framework used for managing game assets and scenes. Basically what the game is constructed on.                             | [phaser.io](https://phaser.io/learn)              |
-| Express JS | Management of client and server in Node JS.                                                                                     | [expressjs](https://expressjs.com/en/4x/api.html) |
-| Socket.IO  | Room and users management for multiplayer. Basically what the multiplayer aspect of the game is based on.                       | [socket.io](https://socket.io/)                   |
-| Socket.IO  | Room and users management for multiplayer. Basically what the multiplayer aspect of the game is based on.                       | [socket.io](https://socket.io/)                   |
+| Technology       | Usage                                                                                                                           | Documentation                                           |
+|------------------|---------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------|
+| imgur.com        | Image sets are hosted as imgur albums and then brought into the game to reduce the space needed for both the server and client. | [imgur API](https://apidocs.imgur.com/)                 |
+| Phaser 3         | Game framework used for managing game assets and scenes. Basically what the game is constructed on.                             | [phaser.io](https://phaser.io/learn)                    |
+| Express JS       | Management of client and server in Node JS.                                                                                     | [expressjs](https://expressjs.com/en/4x/api.html)       |
+| Socket.IO        | Room and users management for multiplayer. Basically what the multiplayer aspect of the game is based on.                       | [socket.io](https://socket.io/)                         |
+| Random Word API  | This web API is used for random prompt generation.                                                                              | [herokuapp](https://random-word-api.herokuapp.com/home) |
 
 <a name="memes"></a>
 ## Where are the memes?
