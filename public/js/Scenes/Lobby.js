@@ -139,13 +139,13 @@ export default class Lobby extends Phaser.Scene{
       // hasta la que esta puesta en 'y'
       this.tweens.add({
         targets: join_G,
-        y: gamescene.game.canvas.height*0.42,
+        y: gamescene.game.canvas.height*0.4,
         duration: 500,
         ease: 'Power3'
       });
       this.tweens.add({
         targets: create_G,
-        y: gamescene.game.canvas.height*0.72,
+        y: gamescene.game.canvas.height*0.75,
         duration: 500,
         ease: 'Power3'
       });

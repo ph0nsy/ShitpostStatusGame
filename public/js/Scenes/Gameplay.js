@@ -214,7 +214,7 @@ export default class Gameplay extends Phaser.Scene{
     var meme_txt = this.add.text(this.game.canvas.width*0.5, this.game.canvas.height*0.725, '', { color: 'whitesmoke', align: 'center', fontFamily: 'Impact', fontSize: '50px', wordWrap: { width: this.game.canvas.width*0.45, useAdvancedWrap: true}}).setOrigin(0.5,0.5).setVisible(false);
     meme_txt.setStroke('black', 4);
     
-    var vote_btn = this.add.image(gamescene.game.canvas.width*0.5, gamescene.game.canvas.height*0.9, 'vote').setOrigin(0.5,0.5).setInteractive({cursor:'pointer'}).setVisible(false).setScale(0.5);
+    var vote_btn = this.add.image(gamescene.game.canvas.width*0.5, gamescene.game.canvas.height*0.9, 'vote').setOrigin(0.5,0.5).setInteractive({cursor:'pointer'}).setVisible(false).setScale(0.4);
     vote_btn.id = '';
     vote_btn.on('pointerover', function () {
       vote_btn.setTint(0x663399);
