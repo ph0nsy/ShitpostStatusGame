@@ -135,8 +135,13 @@ export default class Gameplay extends Phaser.Scene{
         promptPresent.setVisible(true);
         prompt.setVisible(true);
         
+        var alrd_dealed = [];        
         for (let currDealed = 0; currDealed < 5; currDealed++) {
           let curr_img = 'pic_no' + Math.floor(Math.random() * albums.get('Shitpost Status 01').length).toString();
+          while(alrd_dealed.includes(curr_img) && alrd_dealed.length > 0){
+            curr_img = 'pic_no' + Math.floor(Math.random() * albums.get('Shitpost Status 01').length).toString();
+          }
+          alrd_dealed[currDealed] = curr_img;
           if(ops[currDealed]) ops[currDealed].destroy();
           ops[currDealed] = gamescene.add.image(gamescene.game.canvas.width*0.165*(currDealed+1), gamescene.game.canvas.height*0.475, curr_img).setOrigin(0.5,0).setInteractive({cursor:'pointer'}).setScale(0.57);
           ops[currDealed].on('pointerover', function () {
